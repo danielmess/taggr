@@ -1,40 +1,226 @@
 package taggr;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class User {
+    //set private instance variables
     private String userName;
-    private Set<Photo> photoSet = new HashSet();
+    private Map<String, Photo> photoSet = new HashMap<>();
+    private Map<String, Integer> tagsIndex = new HashMap<>(); //index with key of tag and value of # of tag occurrences
+                                                        // in user's photoSet.
     private Set<String> userTags = new HashSet();
 
+    //set blank constructor
     public User() {
     }
 
-    public void addUser(String userName) {
+    //set constructor with userName as sole parameter
+    public User(String userName) {
         this.userName = userName;
     }
 
-    public void addPhoto() {
-        System.out.println("Please enter the photo's URL and press Enter.");
-        Scanner input = new Scanner(System.in);
-        String photoURL = input.nextLine();
-        System.out.println("Please enter your caption/description and press Enter.");
-        String photoDescription = input.nextLine();
-        System.out.println("Please enter all tags you'd like the photo to have, separated by a comma and a space. Hit enter when finished");
-        String tagsString = input.nextLine();
-        String[] tagsArray = tagsString.split(", ");
-        Set<String> tagsSet = new HashSet(Arrays.asList(tagsArray));
-        this.photoSet.add(new Photo(photoURL, photoDescription, tagsSet));
-        String[] var7 = tagsArray;
-        int var8 = tagsArray.length;
+    //set setters - no setter for photoSet or userTags because those should *only* be affected by adding Photos
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-        for(int var9 = 0; var9 < var8; ++var9) {
-            String tag = var7[var9];
-            this.userTags.add(tag);
+    //set getters
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public Map<String, Photo> getPhotoSet() {
+        return photoSet;
+    }
+
+    public Set<String> getUserTags() {
+        return userTags;
+    }
+
+    public Map<String, Integer> getTagsIndex() {return tagsIndex;}
+
+    //set User methods
+
+    //adds an existing Photo to User's photoSet Map and its tags to User's userTags Set.
+    public void addExistingPhotoToUser(Photo newPhoto) {
+        //add photo to PhotoSet for user
+        String url = newPhoto.getUrl();
+        photoSet.put(url, newPhoto);
+        //add newPhoto's tags to user's userTags Set.
+        Set<String> tagsToAdd = newPhoto.getTags();
+        for (String tag : tagsToAdd) {
+            userTags.add(tag);
+        }
+        //updates user's tagsIndex - if tag is new, adds to tagsIndex with a value of 1;
+        //if tag already exists, increments the value by 1.
+
+        for (String tag : tagsToAdd) {
+            //checks to see if tagsIndex for User contains key already
+            if (tagsIndex.containsKey(tag)) {
+                //adds 1 to tag's value in tagsIndex if tag already exists
+                Integer tagOccurrence = tagsIndex.get(tag);
+                tagsIndex.replace(tag, tagOccurrence + 1);
+            } else {
+                //if tag does not already exist in user's tagsIndex, puts tag in as key with start val of 1.
+                tagsIndex.put(tag, 1);
+            }
+        }
+    }
+
+        //creates a new Photo and adds it to User's photoSet Map and its tags to User's userTags Set. updates tagsIndex.
+        public void createNewPhotoandAddToUser (String photoURL, String photoDescription, Set < String > tagsSet){
+            //create photo, add to photoSet for this user
+            this.photoSet.put(photoURL, new Photo(photoURL, photoDescription, tagsSet));
+            //add photo to PhotoSet for user
+            String url = photoURL;
+            //add newPhoto's tags to user's userTags Set.
+            Set<String> tagsToAdd = photoSet.get(photoURL).getTags(); //photoSet.get(PhotoURL) gets the Value of the new photo
+            //, calling .getTags() on that returns the String Set of tags
+            for (String tag : tagsToAdd) {
+                userTags.add(tag);
+            }
+            //updates user's tagsIndex - if tag is new, adds to tagsIndex with a value of 1;
+            //if tag already exists, increments the value by 1.
+
+            for (String tag : tagsToAdd) {
+                //checks to see if tagsIndex for User contains key already
+                if (tagsIndex.containsKey(tag)) {
+                    //adds 1 to tag's value in tagsIndex if tag already exists
+                    Integer tagOccurrence = tagsIndex.get(tag);
+                    tagsIndex.replace(tag, tagOccurrence + 1);
+                } else {
+                    //if tag does not already exist in user's tagsIndex, puts tag in as key with start val of 1.
+                    tagsIndex.put(tag, 1);
+                }
+            }
         }
 
-    }
-}
+            public void deletePhoto (Photo photoToDelete){
+                //set photoKey to use in appropriate maps
+                String photoKey = photoToDelete.getUrl();
+                //get set of tag Strings contained in Photo to be deleted.
+                Set<String> tagsToDelete = photoSet.get(photoKey).getTags();
+                //set for-each loop to run through each tag
+                for (String tag: tagsToDelete) {
+                    //boolean test to see if each tag only occurs once in the tagsIndex
+                    if (tagsIndex.get(tag) == 1) {
+                        //if tag only occurs once, deletes the tag from tagsIndex and userTags
+                        tagsIndex.remove(tag);
+                        userTags.remove(tag);
+                    } else {
+                        //if tag occurs more than once, reduces its occurrence value by one.
+                        Integer tagOccurrence = tagsIndex.get(tag);
+                        tagsIndex.replace(tag, tagOccurrence -1);
+                    }
+                }
+                //removes photo from photoSet
+                photoSet.remove(photoKey);
+            }
+
+            //prints off a list of a user's photos and their attendant information.
+            public void printUserPhotosInfo(){
+                int photoNumber = 0;
+                for (Map.Entry<String, Photo> entry : photoSet.entrySet()) {
+                    Photo photoToPrint = entry.getValue();
+                    String URL = entry.getKey();
+                    String description = entry.getValue().getPhotoDescription();
+                    String tags = entry.getValue().getTagsAsString();
+                    photoNumber++;
+                    System.out.println("Photo #" + photoNumber + " has a URL of '" + URL + "', a description of '" + description +
+                            "', and its tags are '" + tags + "'.");
+
+                }
+            }
+
+            //prints off a list of all tags in a user's photos and how many photos each tag appears on
+            public void printUserTagsIndex(){
+                //set tag number to add in reading list
+                int tagNumber = 0;
+                //for-each loop to iterate through each tag - tag occurrence key-value pair in the tagsIndex map
+                for (Map.Entry<String, Integer> entry: tagsIndex.entrySet()) {
+                    //increments tagNumber by one for each entry
+                    tagNumber++;
+                    //setting tag and tagOccurrence as the entry's key and value respectively to make code review easier.
+                    String tag = entry.getKey();
+                    Integer tagOccurrence = entry.getValue();
+                    //prints out tag info.
+                    System.out.println("Tag #" +tagNumber +" is '"+tag+"' and it occurs "
+                            + tagOccurrence + " times in this User's photoset." );
+                }
+            }
+
+            public String getUserTagsAsString () {
+                String tagsPrintout = "";
+                for (String tag : userTags) {
+                    tagsPrintout += tag + ", ";
+                }
+                //strips final ", " off
+                String userTagsListWithCommas = tagsPrintout.substring(0, tagsPrintout.length() - 2);
+                return userTagsListWithCommas;
+            }
+
+
+            //set CL methods
+            public void addPhotoFromCommandLine(){
+                //get user input for photo URL, description, and tags
+                System.out.println("Please enter the photo's URL and press Enter.");
+                Scanner input = new Scanner(System.in);
+                String photoURL = input.nextLine();
+                System.out.println("Please enter your caption/description and press Enter.");
+                String photoDescription = input.nextLine();
+                System.out.println("Please enter all tags you'd like the photo to have, separated by a comma and a space. Hit enter when finished");
+                String tagsString = input.nextLine();
+                //make tagsString into an array of tags as Strings
+                String[] tagsArray = tagsString.split(", ");
+                Set<String> tagsToAdd = new HashSet(Arrays.asList(tagsArray));
+                //creates new Photo and adds it to photoSet Map as a Value with photoURL as the unique key
+                this.photoSet.put(photoURL, new Photo(photoURL, photoDescription, tagsToAdd));
+                // adds new Photo's tag Strings to the userTags String Set.
+                for (String tag : tagsToAdd) {
+                    userTags.add(tag);
+                }
+                //updates user's tagsIndex - if tag is new, adds to tagsIndex with a value of 1;
+                //if tag already exists, increments the value by 1.
+                for (String tag : tagsToAdd) {
+                    //checks to see if tagsIndex for User contains key already
+                    if (tagsIndex.containsKey(tag)) {
+                        //adds 1 to tag's value in tagsIndex if tag already exists
+                        Integer tagOccurrence = tagsIndex.get(tag);
+                        tagsIndex.replace(tag, tagOccurrence + 1);
+                    } else {
+                        //if tag does not already exist in user's tagsIndex, puts tag in as key with start val of 1.
+                        tagsIndex.put(tag, 1);
+                    }
+                }
+
+
+            }
+
+            public void deletePhotoFromCommandLine(){
+                //get user input for photo URL
+                System.out.println("Please enter the photo's URL and press Enter.");
+                Scanner input = new Scanner(System.in);
+                //sets key to use in appropriate maps.
+                String photoKey = input.nextLine();
+                //get set of tag Strings contained in Photo to be deleted.
+                Set<String> tagsToDelete = photoSet.get(photoKey).getTags();
+                //set for-each loop to run through each tag
+                for (String tag: tagsToDelete) {
+                    //boolean test to see if each tag only occurs once in the tagsIndex
+                    if (tagsIndex.get(tag) == 1) {
+                        //if tag only occurs once, deletes the tag from tagsIndex and userTags
+                        tagsIndex.remove(tag);
+                        userTags.remove(tag);
+                    } else {
+                        //if tag occurs more than once, reduces its occurrence value by one.
+                        Integer tagOccurrence = tagsIndex.get(tag);
+                        tagsIndex.replace(tag, tagOccurrence -1);
+                    }
+                }
+                //removes photo from photoSet
+                photoSet.remove(photoKey);
+
+            }
+
+        }
