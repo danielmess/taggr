@@ -9,6 +9,7 @@ import java.util.Set;
 
 public class PhotoTests {
 
+    //tests out unparametized Photo constructor as well as URL and description getters.
     @Test
     public void add_unparametized_photo_and_set_and_get_URL_and_description(){
         //arrange
@@ -23,6 +24,7 @@ public class PhotoTests {
         Assert.assertEquals("this is a test", result2);
     }
 
+    //tests out parametized Photo constructor
     @Test
     public void add_parametized_photo_and_get_url_and_description(){
         //Arrange
@@ -37,6 +39,7 @@ public class PhotoTests {
         Assert.assertEquals(sutTags, result3);
     }
 
+    //tests tags setter/getter for a Photo - passes a List<String> to the setter and returns a Set.
     @Test
     public void setTags_test_pass_list(){
         //arrange
@@ -50,6 +53,8 @@ public class PhotoTests {
         Assert.assertEquals(sutTagsSet, result);
     }
 
+    //tests tags setter/getter for a Photo - passes a String that is a comma-delimited list to the setter
+    //and returns a Set
     @Test
     public void setTags_test_pass_strings_comma_delimited(){
         //arrange
@@ -62,6 +67,7 @@ public class PhotoTests {
         Assert.assertEquals(sutTagsSet, result);
     }
 
+    //tests Printing out a Photo's tags to Console.
     @Test
     public void printTags_test(){
         //Arrange
@@ -71,6 +77,7 @@ public class PhotoTests {
         sut.printTags();
     }
 
+    //tests getting a Photo's strings as a comma-delimited list
     @Test
     public void getTagsAsString_test(){
         //Arrange
