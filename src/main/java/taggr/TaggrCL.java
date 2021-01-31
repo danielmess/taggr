@@ -19,7 +19,7 @@ public class TaggrCL {
             System.out.println("1) User Options - UNIMPLEMENTED");
             System.out.println("2) Add/Delete Photos");
             System.out.println("3) Edit Photo Information");
-            System.out.println("4) List Photos By Tags Or Description Keywords");
+            System.out.println("4) List/Search Photos or Tags");
             System.out.println("5) Exit Taggr");
             System.out.println("  Please select option number and press enter.");
             Scanner input = new Scanner(System.in);
@@ -27,16 +27,17 @@ public class TaggrCL {
             switch (topMenuChoice) {
                 case 1:
                     System.out.println("I'm sorry, but User Options are not implemented yet.");
+                    //unsure yet as to whether this option will stay at this level;
+                    //it's likely that choosing which user is logged in will be the first part of the program.
                     break;
                 case 2:
-                    commandLineUser.addDeleteMenu(); // run static method for add/delete menu
+                    commandLineUser.addDeleteMenu(); // run User method for add/delete menu
                     break;
                 case 3:
-                    System.out.println("Edit Photo Information menu:");
-                    //editPhotosMenu(); - run method for edit Photos menu
+                    commandLineUser.editPhotosMenu(); // run User method for edit Photos menu
                     break;
                 case 4:
-                    commandLineUser.listPhotosMenu(); //- run method for list Photos menu
+                    commandLineUser.listPhotosMenu(); //- run User method for list/search Photos menu
                     break;
                 case 5:
                     finishedTopMenuLoop = true;

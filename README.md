@@ -14,12 +14,12 @@ Currently taggr is a command-line only program, since that's where my skill leve
 and grow taggr as my skills increase. Anticipated updates include:
 </br>
 <ul>
-<li> a fully built out nested menu at the command-line level</li>
+<li> <strike>a fully built out nested menu at the command-line level</strike> <b>implemented 1-31-2021!</b></li>
 <li> persistence, allowing the saving of multiple user profiles with photo info</li>
 <li> security, allowing a user's account to be password protected</li>
 <li> moving taggr from a command-line interface to a web-based interface</li>
 <li> creating gallery options based on using scraping techniques</li>
-<li> and much more!</li>
+<li> and much more, tbd as I learn more skills!</li>
 </ul>
 </br>
 </br>

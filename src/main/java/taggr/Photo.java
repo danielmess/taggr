@@ -21,8 +21,9 @@ public class Photo {
     }
 
 // set setters - no setter for tags; instead we do a specific method to Add tags to the tags Set.
+// also we don't set the URL for a photo because the URL is the key to the Photo in the User's Map photoset.
 
-    public void setUrl(String photoURL) {
+    public void setUrl(String photoURL) { // this is only used in testing suite
         this.photoURL = photoURL;
     }
 

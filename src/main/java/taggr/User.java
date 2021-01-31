@@ -201,6 +201,47 @@ public class User {
         return userTagsListWithCommas;
     }
 
+    //adds a tag to an existing Photo for the user
+    public void addTagToPhoto(String url, String tag) {
+        //do some gets to make it easier to see what's happening
+        Photo photoToEdit = photoSet.get(url);
+        Set photoTagstoEdit = photoToEdit.getTags();
+        //add new tag to Photo's tags Set
+        photoTagstoEdit.add(tag);
+        //updates tag in User's tagsIndex; if tag already exists, increases value by 1. if tag doesn't already
+        // exist, puts tag into tagsIndex and give it an initial occurrence value of 1.
+        if (tagsIndex.containsKey(tag)) {
+            Integer tagOccurrence = tagsIndex.get(tag);
+            tagsIndex.replace(tag, tagOccurrence, tagOccurrence + 1);
+        } else {
+            tagsIndex.put(tag, 1);
+        }
+    }
+
+    //rewrites description for a user's given Photo
+    public void rewritePhotoDescription(String url, String newDescription) {
+        Photo photoToEdit = photoSet.get(url);
+        //set new description
+        photoToEdit.setPhotoDescription(newDescription);
+    }
+
+    //deletes a tag from a user's given Photo
+    public void deleteTagFromPhoto(String url, String tagToDelete){
+        Photo photoToEdit = photoSet.get(url);
+        photoToEdit.getTags().remove(tagToDelete);
+        //now to delete the tag from the user's userTags Set and tagsIndex Map if it only occurs once; otherwise we leave
+        //userTags alone and decrease the tag's value by one in the tagsIndexMap.
+        if (tagsIndex.get(tagToDelete) == 1) {
+            //if tag only occurs once, deletes the tag from tagsIndex and userTags
+            tagsIndex.remove(tagToDelete);
+            userTags.remove(tagToDelete);
+        } else {
+            //if tag occurs more than once, reduces its occurrence value by one and leaves the tag
+            // in userTags alone.
+            Integer tagOccurrence = tagsIndex.get(tagToDelete);
+            tagsIndex.replace(tagToDelete, tagOccurrence - 1);
+        }
+    }
 
     //set CL methods
     public void addPhotoFromCommandLine() {
@@ -288,7 +329,7 @@ public class User {
                     finishedAddDeleteMenuLoop = true;
                     break;
                 default:
-                    System.out.println("Please choice one of the supported menu options.");
+                    System.out.println("Please choose one of the supported menu options.");
             }
         }
     }
@@ -336,9 +377,73 @@ public class User {
                     finishedListPhotoMenuLoop = true;
                     break;
                 default:
-                    System.out.println("Please choice one of the supported menu options.");
+                    System.out.println("Please choose one of the supported menu options.");
             }
         }
+    }
+
+
+    public void editPhotosMenu() {
+        //set flag for add-delete menu while loop
+        boolean finishedEditPhotoMenuLoop = false;
+        //begin while loop
+        while (!finishedEditPhotoMenuLoop) {
+            System.out.println("Edit Photo Information menu:");
+            System.out.println("1) give a Photo a new description");
+            System.out.println("2) add a tag to a photo");
+            System.out.println("3) delete a tag from a photo");
+            System.out.println("4) List all user tags.");
+            System.out.println("5) List all user tags with their number of occurrences in photoset.");
+            System.out.println("6) List all user photos");
+            System.out.println("7) Exit to Main Menu");
+            System.out.println("Please select option number and press enter.");
+            Scanner input = new Scanner(System.in);
+            int listPhotoMenuChoice = Integer.parseInt(input.nextLine());
+            switch (listPhotoMenuChoice) {
+                case 1:
+                    System.out.println("Please enter the photo's URL and press enter.");
+                    String url = input.nextLine();
+                    System.out.println("Please enter the new description for the photo and press enter.");
+                    String newDescription = input.nextLine();
+                    rewritePhotoDescription(url, newDescription);
+                    //give photo a new description
+                    break;
+                case 2:
+                    System.out.println("Please enter the photo's URL and press enter.");
+                    String tagUrl = input.nextLine();
+                    System.out.println("Please enter the new tag for the photo and press enter.");
+                    String newTag = input.nextLine();
+                    addTagToPhoto(tagUrl, newTag);
+                    //add a tag to a photo
+                    break;
+                case 3:
+                    System.out.println("Please enter the photo's URL and press enter.");
+                    String tagDeleteUrl = input.nextLine();
+                    System.out.println("Please enter the tag to delete from the photo and press enter.");
+                    String deleteTag = input.nextLine();
+                    deleteTagFromPhoto(tagDeleteUrl, deleteTag);
+                    //delete a tag from a photo
+                    break;
+                case 4:
+                    System.out.println(getUserTagsAsString());
+                    break;
+                case 5:
+                    printUserTagsIndex();
+                    break;
+                case 6:
+                    printUserPhotosInfo();
+                    break;
+                case 7:
+                    System.out.println("Now exiting to main menu.");
+                    finishedEditPhotoMenuLoop = true;
+                    break;
+                default:
+                    System.out.println("Please choose one of the supported menu options.");
+                    break;
+
+            }
+        }
+
     }
 
 }
