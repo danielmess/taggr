@@ -70,6 +70,12 @@ public class Photo {
         }
     }
 
+    //prints out the designated photo's url, description, and tags as a single String.
+    public void printPhotoInfo(){
+        System.out.println("The photo's url is '" + getUrl() + "' and the description is '" + getPhotoDescription() +
+                "' and the photo's tags are '" + getTagsAsString() + "'.");
+    }
+
     public void printTags() { //print tags to Console
         String tagsPrintout = "";
         for(String tag: tagsSet) {
@@ -80,14 +86,17 @@ public class Photo {
 
     }
 
-    public void deleteTagsFromString(String tagsAsString){ //set tags from a single comma-delimited String
+    public void deleteTagsFromString(String tagsAsString){ //delete tags from a single comma-delimited String
         String[] tagsArray = tagsAsString.split(", ");
         for(String tag: tagsArray){
             this.tagsSet.remove(tag);
         }
     }
 
+    //delete single tag from a Photo's tagsSet
     public void deleteTag(String tag) {
         this.tagsSet.remove(tag);
     }
+
+
 }

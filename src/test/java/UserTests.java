@@ -168,5 +168,39 @@ public class UserTests {
         //Assert
        sutUser.printUserTagsIndex();
     }
+
+    @Test
+    public void test_add_3_existing_photos_to_user_print_based_on_tags() {
+        //Arrange
+        User sutUser = new User("tester");
+        Set<String> sutSet = new HashSet<>(Arrays.asList("a", "b", "c"));
+        Set<String> sutSet2 = new HashSet<>(Arrays.asList("a", "d", "c"));
+        Set<String> sutSet3 = new HashSet<>(Arrays.asList("a", "d", "e"));
+        Photo sutPhoto = new Photo("testurl", "test description", sutSet);
+        Photo sutPhoto2 = new Photo("testurl2", "test description2", sutSet2);
+        Photo sutPhoto3 = new Photo("testurl3", "test description3", sutSet3);
+        sutUser.addExistingPhotoToUser(sutPhoto);
+        sutUser.addExistingPhotoToUser(sutPhoto2);
+        sutUser.addExistingPhotoToUser(sutPhoto3);
+        //Act
+        sutUser.printUserPhotosTagSearch("b");
+    }
+
+    @Test
+    public void test_add_3_existing_photos_to_user_print_based_on_description() {
+        //Arrange
+        User sutUser = new User("tester");
+        Set<String> sutSet = new HashSet<>(Arrays.asList("a", "b", "c"));
+        Set<String> sutSet2 = new HashSet<>(Arrays.asList("a", "d", "c"));
+        Set<String> sutSet3 = new HashSet<>(Arrays.asList("a", "d", "e"));
+        Photo sutPhoto = new Photo("testurl", "test description", sutSet);
+        Photo sutPhoto2 = new Photo("testurl2", "test description2", sutSet2);
+        Photo sutPhoto3 = new Photo("testurl3", "test description3", sutSet3);
+        sutUser.addExistingPhotoToUser(sutPhoto);
+        sutUser.addExistingPhotoToUser(sutPhoto2);
+        sutUser.addExistingPhotoToUser(sutPhoto3);
+        //Act
+        sutUser.printUserPhotosDescriptionSearch("2");
+    }
 }
 

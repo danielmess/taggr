@@ -2,13 +2,20 @@ package taggr;
 
 import java.util.*;
 
+//Class notes - as I get learn about persistence and security, I anticipate User private instance variables will expand
+//to include first name, last name, email, password, et cetera.
+
 public class User {
     //set private instance variables
     private String userName;
-    private Map<String, Photo> photoSet = new HashMap<>();
+    private Map<String, Photo> photoSet = new HashMap<>(); //photoSet uses the photo's URL as its key value, meaning that
+                                                        //a user couldn't accidentally add the same photo twice.
+                                                        //Sanitation is important for sanity!
+
+    private Set<String> userTags = new HashSet();
+
     private Map<String, Integer> tagsIndex = new HashMap<>(); //index with key of tag and value of # of tag occurrences
                                                         // in user's photoSet.
-    private Set<String> userTags = new HashSet();
 
     //set blank constructor
     public User() {
@@ -19,12 +26,12 @@ public class User {
         this.userName = userName;
     }
 
-    //set setters - no setter for photoSet or userTags because those should *only* be affected by adding Photos
+    //set setters - no setter for photoSet, userTags, or tagsIndex because those should *only* be affected by adding Photos
     public void setUserName(String userName) {
         this.userName = userName;
     }
 
-    //set getters
+    //set vanilla getters
 
     public String getUserName() {
         return userName;
@@ -42,7 +49,7 @@ public class User {
 
     //set User methods
 
-    //adds an existing Photo to User's photoSet Map and its tags to User's userTags Set.
+    //adds an existing Photo to User's photoSet Map and its tags to User's userTags Set. Updates tagsIndex.
     public void addExistingPhotoToUser(Photo newPhoto) {
         //add photo to PhotoSet for user
         String url = newPhoto.getUrl();
@@ -54,7 +61,6 @@ public class User {
         }
         //updates user's tagsIndex - if tag is new, adds to tagsIndex with a value of 1;
         //if tag already exists, increments the value by 1.
-
         for (String tag : tagsToAdd) {
             //checks to see if tagsIndex for User contains key already
             if (tagsIndex.containsKey(tag)) {
@@ -69,20 +75,19 @@ public class User {
     }
 
         //creates a new Photo and adds it to User's photoSet Map and its tags to User's userTags Set. updates tagsIndex.
-        public void createNewPhotoandAddToUser (String photoURL, String photoDescription, Set < String > tagsSet){
+        public void createNewPhotoandAddToUser (String photoURL, String photoDescription, Set <String> tagsSet){
             //create photo, add to photoSet for this user
             this.photoSet.put(photoURL, new Photo(photoURL, photoDescription, tagsSet));
             //add photo to PhotoSet for user
             String url = photoURL;
-            //add newPhoto's tags to user's userTags Set.
-            Set<String> tagsToAdd = photoSet.get(photoURL).getTags(); //photoSet.get(PhotoURL) gets the Value of the new photo
-            //, calling .getTags() on that returns the String Set of tags
+            //add newPhoto's tags to user's userTags Set:
+            Set<String> tagsToAdd = photoSet.get(photoURL).getTags(); //photoSet.get(PhotoURL) returns the Value, which for
+            //photoSet is a Photo Object. calling .getTags() on that Photo returns the String Set of tags
             for (String tag : tagsToAdd) {
                 userTags.add(tag);
             }
             //updates user's tagsIndex - if tag is new, adds to tagsIndex with a value of 1;
             //if tag already exists, increments the value by 1.
-
             for (String tag : tagsToAdd) {
                 //checks to see if tagsIndex for User contains key already
                 if (tagsIndex.containsKey(tag)) {
@@ -109,7 +114,8 @@ public class User {
                         tagsIndex.remove(tag);
                         userTags.remove(tag);
                     } else {
-                        //if tag occurs more than once, reduces its occurrence value by one.
+                        //if tag occurs more than once, reduces its occurrence value by one and leaves the tag
+                        // in userTags alone.
                         Integer tagOccurrence = tagsIndex.get(tag);
                         tagsIndex.replace(tag, tagOccurrence -1);
                     }
@@ -133,6 +139,36 @@ public class User {
                 }
             }
 
+            //prints off a list of a user's photos and their attendant information if they have a given tag
+            public void printUserPhotosTagSearch(String tag){
+                int photoNumber = 0;
+                for (Map.Entry<String, Photo> entry : photoSet.entrySet()) {
+                    Photo photoToPrint = entry.getValue();
+                    String URL = entry.getKey();
+                    String description = entry.getValue().getPhotoDescription();
+                    String tags = entry.getValue().getTagsAsString();
+                    if(tags.contains(tag)) {
+                        photoNumber++;
+                        System.out.println("Photo #" + photoNumber + " has a URL of '" + URL + "', a description of '" + description +
+                                "', and its tags are '" + tags + "'.");
+                    }
+                }
+            }
+             //prints off a list of a user's photos and their attendant information if their description contains given string
+            public void printUserPhotosDescriptionSearch(String descriptionsearch){
+                  int photoNumber = 0;
+                  for (Map.Entry<String, Photo> entry : photoSet.entrySet()) {
+                      Photo photoToPrint = entry.getValue();
+                      String URL = entry.getKey();
+                      String description = entry.getValue().getPhotoDescription();
+                      String tags = entry.getValue().getTagsAsString();
+                      if(description.contains(descriptionsearch)) {
+                          photoNumber++;
+                          System.out.println("Photo #" + photoNumber + " has a URL of '" + URL + "', a description of '"
+                                  + description + "', and its tags are '" + tags + "'.");
+            }
+        }
+    }
             //prints off a list of all tags in a user's photos and how many photos each tag appears on
             public void printUserTagsIndex(){
                 //set tag number to add in reading list
@@ -149,13 +185,13 @@ public class User {
                             + tagOccurrence + " times in this User's photoset." );
                 }
             }
-
+            //getter to put all of the user's tags in a single comma-delimited string.
             public String getUserTagsAsString () {
                 String tagsPrintout = "";
                 for (String tag : userTags) {
                     tagsPrintout += tag + ", ";
                 }
-                //strips final ", " off
+                //strips final ", " off the final string
                 String userTagsListWithCommas = tagsPrintout.substring(0, tagsPrintout.length() - 2);
                 return userTagsListWithCommas;
             }
@@ -193,8 +229,6 @@ public class User {
                         tagsIndex.put(tag, 1);
                     }
                 }
-
-
             }
 
             public void deletePhotoFromCommandLine(){
