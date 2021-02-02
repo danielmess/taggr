@@ -46,13 +46,15 @@ public class Photo {
 
     public String getTagsAsString() { //returns tags as a comma-delimited String.
         String tagsPrintout = "";
-        for(String tag: tagsSet) {
-            tagsPrintout += tag + ", ";
+        if (tagsSet.size() > 0) {
+            for (String tag : tagsSet) {
+                tagsPrintout += tag + ", ";
+            }
+            //strips final ", " off
+            String tagsListWithCommas = tagsPrintout.substring(0, tagsPrintout.length() - 2);
+            return tagsListWithCommas;
         }
-        //strips final ", " off
-        String tagsListWithCommas = tagsPrintout.substring(0,tagsPrintout.length()-2);
-        return tagsListWithCommas;
-
+        return "";
     }
 
     //set methods

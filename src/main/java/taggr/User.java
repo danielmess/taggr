@@ -58,7 +58,7 @@ public class User {
         photoSet.put(url, newPhoto);
         //add newPhoto's tags to user's userTags Set.
         Set<String> tagsToAdd = newPhoto.getTags();
-        for (String tag : tagsToAdd) {
+        for (String tag : tagsToAdd) { // look into adding the tagsToAdd Set to tagsSet
             userTags.add(tag);
         }
         //updates user's tagsIndex - if tag is new, adds to tagsIndex with a value of 1;
@@ -135,6 +135,7 @@ public class User {
             String description = entry.getValue().getPhotoDescription();
             String tags = entry.getValue().getTagsAsString();
             photoNumber++;
+            //make this a method??
             System.out.println("Photo #" + photoNumber + " has a URL of '" + URL + "', a description of '" + description +
                     "', and its tags are '" + tags + "'.");
 
