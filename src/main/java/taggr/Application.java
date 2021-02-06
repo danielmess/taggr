@@ -71,15 +71,15 @@ public class Application {
                     System.out.println("User options are not yet implemented");
                     break;
                 case MAIN_MENU_OPTION_ADD_DELETE_MENU:
-                    //RUN ADD/DELETE METHOD, DEFINE BELOW
+                    //RUN ADD/DELETE METHOD, DEFINED BELOW
                     addDeleteSubMenu();
                     break;
                 case MAIN_MENU_OPTION_EDIT_PHOTO_INFO_MENU:
-                    //RUN EDIT Photo method, define below
+                    //RUN EDIT PHOTO MENU, DEFINED BELOW
                     editPhotoSubMenu();
                     break;
                 case MAIN_MENU_OPTION_LIST_SEARCH_MENU:
-                    //run list search menu method, define below
+                    //RUN LIST/SEARCH MENU, DEFINED BELOW
                     listPrintPhotoSubMenu();
                     break;
                 case MAIN_MENU_OPTION_EXIT:
@@ -96,9 +96,13 @@ public class Application {
             String addDeleteSelection = ui.promptForSelection(ADD_DELETE_MENU_OPTIONS);
             switch (addDeleteSelection) {
                 case ADD_DELETE_MENU_OPTION_ADD_PHOTO:
-                    testUser.addPhotoFromCommandLine();
+                    String url = ui.promptForString("Please enter the URL of the photo to add");
+                    String photoDescription = ui.promptForString("Please enter the description of the photo to add.");
+                    String tagsString = ui.promptForString("Please enter all tags you'd like the photo to have, separated by a comma and a space. Hit enter when finished.");
+                    testUser.addPhotoToUser(url, photoDescription, tagsString);
                     break;
                 case ADD_DELETE_MENU_OPTION_DELETE_PHOTO:
+
                     testUser.deletePhotoFromCommandLine();
                     break;
                 case ADD_DELETE_MENU_EXIT:
@@ -115,21 +119,33 @@ public class Application {
             switch (editSelection) {
                 case EDIT_PHOTO_MENU_OPTION_NEW_DESCRIPTION:
                     //RUN EDIT PHOTO DESCRIPTION METHOD ON USER
+                    String url = ui.promptForString("Please enter the photo URL and hit enter.");
+                    String newDescription = ui.promptForString("Please enter the new description and hit enter.");
+                    testUser.rewritePhotoDescription(url, newDescription);
                     break;
                 case EDIT_PHOTO_MENU_OPTION_ADD_TAG:
                     //RUN DELETE PHOTO METHOD ON USER
+                    String urlAddTag = ui.promptForString("Please enter the photo URL and hit enter.");
+                    String newTag = ui.promptForString("Please enter the tag to add and hit enter.");
+                    testUser.addTagToPhoto(urlAddTag, newTag);
                     break;
                 case EDIT_PHOTO_MENU_OPTION_DELETE_TAG:
                     //RUN DELETE PHOTO METHOD ON USER
+                    String urlDelTag = ui.promptForString("Please enter the photo URL and hit enter.");
+                    String deleteTag = ui.promptForString("Please enter the tag to add and hit enter.");
+                    testUser.deleteTagFromPhoto(urlDelTag, deleteTag);
                     break;
                 case EDIT_PHOTO_MENU_OPTION_INDEX_USER_TAGS:
                     //run method
+                    testUser.printUserTagsIndex();
                     break;
                 case EDIT_PHOTO_MENU_OPTION_LIST_USER_TAGS:
                     //RUN METHOD
+                    System.out.println(testUser.getUserTagsAsString());
                     break;
                 case EDIT_PHOTO_MENU_OPTION_LIST_USER_PHOTOS:
                     //RUN METHOD
+                    testUser.printUserPhotosInfo();
                     break;
                 case EDIT_PHOTO_MENU_OPTION_EXIT:
                     editPhotoSubMenuLoopFinished = true;

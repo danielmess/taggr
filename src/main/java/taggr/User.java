@@ -244,6 +244,57 @@ public class User {
         }
     }
 
+    public void addPhotoToUser(String url, String photoDescription, String tagsString) {
+        //make tagsString into an array of tags as Strings
+        String[] tagsArray = tagsString.split(", ");
+        Set<String> tagsToAdd = new HashSet(Arrays.asList(tagsArray));
+        //creates new Photo and adds it to photoSet Map as a Value with photoURL as the unique key
+        this.photoSet.put(url, new Photo(url, photoDescription, tagsToAdd));
+        // adds new Photo's tag Strings to the userTags String Set.
+        for (String tag : tagsToAdd) {
+            userTags.add(tag);
+        }
+        //updates user's tagsIndex - if tag is new, adds to tagsIndex with a value of 1;
+        //if tag already exists, increments the value by 1.
+        for (String tag : tagsToAdd) {
+            //checks to see if tagsIndex for User contains key already
+            if (tagsIndex.containsKey(tag)) {
+                //adds 1 to tag's value in tagsIndex if tag already exists
+                Integer tagOccurrence = tagsIndex.get(tag);
+                tagsIndex.replace(tag, tagOccurrence + 1);
+            } else {
+                //if tag does not already exist in user's tagsIndex, puts tag in as key with start val of 1.
+                tagsIndex.put(tag, 1);
+            }
+        }
+    }
+
+    public void deletePhotoFromUser() {
+        //get user input for photo URL
+        System.out.println("Please enter the photo's URL and press Enter.");
+        Scanner input = new Scanner(System.in);
+        //sets key to use in appropriate maps.
+        String photoKey = input.nextLine();
+        //get set of tag Strings contained in Photo to be deleted.
+        Set<String> tagsToDelete = photoSet.get(photoKey).getTags();
+        //set for-each loop to run through each tag
+        for (String tag : tagsToDelete) {
+            //boolean test to see if each tag only occurs once in the tagsIndex
+            if (tagsIndex.get(tag) == 1) {
+                //if tag only occurs once, deletes the tag from tagsIndex and userTags
+                tagsIndex.remove(tag);
+                userTags.remove(tag);
+            } else {
+                //if tag occurs more than once, reduces its occurrence value by one.
+                Integer tagOccurrence = tagsIndex.get(tag);
+                tagsIndex.replace(tag, tagOccurrence - 1);
+            }
+        }
+        //removes photo from photoSet
+        photoSet.remove(photoKey);
+
+    }
+
     //set CL methods
     public void addPhotoFromCommandLine() {
         //get user input for photo URL, description, and tags
