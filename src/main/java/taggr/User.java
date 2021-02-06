@@ -269,7 +269,7 @@ public class User {
         }
     }
 
-    public void deletePhotoFromUser() {
+    public void deletePhotoFromUser(String urlToDelete) {
         //get user input for photo URL
         System.out.println("Please enter the photo's URL and press Enter.");
         Scanner input = new Scanner(System.in);

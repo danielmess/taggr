@@ -102,8 +102,8 @@ public class Application {
                     testUser.addPhotoToUser(url, photoDescription, tagsString);
                     break;
                 case ADD_DELETE_MENU_OPTION_DELETE_PHOTO:
-
-                    testUser.deletePhotoFromCommandLine();
+                    String urlToDelete = ui.promptForString("Please enter the URL of the photo to delete");
+                    testUser.deletePhotoFromUser(urlToDelete);
                     break;
                 case ADD_DELETE_MENU_EXIT:
                     addDeleteSubMenuLoopFinished = true;
@@ -141,7 +141,7 @@ public class Application {
                     break;
                 case EDIT_PHOTO_MENU_OPTION_LIST_USER_TAGS:
                     //RUN METHOD
-                    System.out.println(testUser.getUserTagsAsString());
+                    ui.output(testUser.getUserTagsAsString());
                     break;
                 case EDIT_PHOTO_MENU_OPTION_LIST_USER_PHOTOS:
                     //RUN METHOD
@@ -161,18 +161,27 @@ public class Application {
             switch (listPrintSelection) {
                 case LIST_PRINT_PHOTO_MENU_OPTION_LIST_BY_TAG:
                     //RUN EDIT PHOTO DESCRIPTION METHOD ON USER
+                    ui.output("taggr will run a keyword search and bring back all photos with tags that apply.");
+                    String tagToSearch = ui.promptForString("Please input the keyword you want to search for in your photoset's tags and hit enter.");
+                    testUser.printUserPhotosTagSearch(tagToSearch);
                     break;
                 case LIST_PRINT_PHOTO_MENU_OPTION_LIST_BY_KEYWORD:
                     //RUN DELETE PHOTO METHOD ON USER
+                    ui.output("taggr will run a keyword search and bring back all photos with descriptions that apply.");
+                    String descriptionKeyWord = ui.promptForString("Please input the keyword you want to search for in the photoset's descriptions and hit enter.");
+                    testUser.printUserPhotosDescriptionSearch(descriptionKeyWord);
                     break;
                 case LIST_PRINT_PHOTO_MENU_OPTION_LIST_INDEX_USER_TAGS:
                     //RUN DELETE PHOTO METHOD ON USER
+                    testUser.printUserTagsIndex();
                     break;
                 case LIST_PRINT_PHOTO_MENU_OPTION_LIST_USER_TAGS:
                     //run method
+                    ui.output(testUser.getUserTagsAsString());
                     break;
                 case LIST_PRINT_PHOTO_MENU_OPTION_LIST_USER_PHOTOS:
                     //RUN METHOD
+                    testUser.printUserPhotosInfo();
                     break;
                 case LIST_PRINT_PHOTO_MENU_EXIT:
                     listPrintPhotoSubMenuLoopFinished = true;
