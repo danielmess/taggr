@@ -61,7 +61,6 @@ public class Application {
     public void run() {
         //prework before menu
         System.out.println("Hello! Welcome to the command-line version of Taggr!");
-        User commandLineUser = testUser;
 
         boolean mainMenuLoopFinished = false;
         while (!mainMenuLoopFinished) {

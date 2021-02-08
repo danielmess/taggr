@@ -15,6 +15,7 @@ and grow taggr as my skills increase. Anticipated updates include:
 </br>
 <ul>
 <li> <strike>a fully built out nested menu at the command-line level</strike> <b>implemented 1-31-2021!</b></li>
+<li> <strike>a <b>better</b> nested menu at the command-line level</strike> <b>implemented 2-7-2021!</b></li>
 <li> persistence, allowing the saving of multiple user profiles with photo info</li>
 <li> security, allowing a user's account to be password protected</li>
 <li> moving taggr from a command-line interface to a web-based interface</li>
