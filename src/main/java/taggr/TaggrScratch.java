@@ -5,7 +5,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class TaggrScratch {
-   //this is where I stick old methods, Just In Case
+   //this is where I stick old methods, Just In Case. a GNDN Class.
 
     //set CL methods
 //    public void addPhotoFromCommandLine() {

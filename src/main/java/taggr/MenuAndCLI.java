@@ -5,8 +5,9 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class MenuAndCLI {
 
+//utility class to make running the Application methods as easy as possible.
+public class MenuAndCLI {
 
     private final Scanner userInput = new Scanner(System.in);
 

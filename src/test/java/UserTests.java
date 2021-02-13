@@ -147,7 +147,7 @@ public class UserTests {
         //Act
         sutUser.addExistingPhotoToUser(sutPhoto);
         sutUser.addExistingPhotoToUser(sutPhoto2);
-        sutUser.deletePhoto(sutPhoto2);
+        sutUser.deletePhotoFromUser("testurl2");
         int tagOccurrence = sutUser.getTagsIndex().get("a");
         //Assert
         Assert.assertEquals(1, tagOccurrence);

@@ -8,7 +8,7 @@ public class Application {
     private static final String MAIN_MENU_OPTION_LIST_SEARCH_MENU = "List/Search Photos or Tags";
     private static final String MAIN_MENU_OPTION_EXIT = "Exit taggr";
 
-    //future strings for user menu can be implemented below
+    //future strings for user menu can be listed here.
 
     //list add/delete photo submenu option strings
     private static final String ADD_DELETE_MENU_OPTION_ADD_PHOTO = "Add a Photo to current User's Photoset";
@@ -67,7 +67,7 @@ public class Application {
             String mainSelection = ui.promptForSelection(MAIN_MENU_OPTIONS);
             switch (mainSelection) {
                 case MAIN_MENU_OPTION_USER_MENU:
-                    System.out.println("User options are not yet implemented");
+                    ui.output("User options are not yet implemented");
                     break;
                 case MAIN_MENU_OPTION_ADD_DELETE_MENU:
                     //RUN ADD/DELETE METHOD, DEFINED BELOW
@@ -82,7 +82,7 @@ public class Application {
                     listPrintPhotoSubMenu();
                     break;
                 case MAIN_MENU_OPTION_EXIT:
-                    System.out.println("Thank you for using taggr. Have a great day and keep snapping!");
+                    ui.output("Thank you for using taggr. Have a great day and keep snapping!");
                     mainMenuLoopFinished = true;
                     break;
             }
@@ -117,33 +117,27 @@ public class Application {
             String editSelection = ui.promptForSelection(EDIT_PHOTO_MENU_OPTIONS);
             switch (editSelection) {
                 case EDIT_PHOTO_MENU_OPTION_NEW_DESCRIPTION:
-                    //RUN EDIT PHOTO DESCRIPTION METHOD ON USER
                     String url = ui.promptForString("Please enter the photo URL and hit enter.");
                     String newDescription = ui.promptForString("Please enter the new description and hit enter.");
                     testUser.rewritePhotoDescription(url, newDescription);
                     break;
                 case EDIT_PHOTO_MENU_OPTION_ADD_TAG:
-                    //RUN DELETE PHOTO METHOD ON USER
                     String urlAddTag = ui.promptForString("Please enter the photo URL and hit enter.");
                     String newTag = ui.promptForString("Please enter the tag to add and hit enter.");
                     testUser.addTagToPhoto(urlAddTag, newTag);
                     break;
                 case EDIT_PHOTO_MENU_OPTION_DELETE_TAG:
-                    //RUN DELETE PHOTO METHOD ON USER
                     String urlDelTag = ui.promptForString("Please enter the photo URL and hit enter.");
                     String deleteTag = ui.promptForString("Please enter the tag to add and hit enter.");
                     testUser.deleteTagFromPhoto(urlDelTag, deleteTag);
                     break;
                 case EDIT_PHOTO_MENU_OPTION_INDEX_USER_TAGS:
-                    //run method
                     testUser.printUserTagsIndex();
                     break;
                 case EDIT_PHOTO_MENU_OPTION_LIST_USER_TAGS:
-                    //RUN METHOD
                     ui.output(testUser.getUserTagsAsString());
                     break;
                 case EDIT_PHOTO_MENU_OPTION_LIST_USER_PHOTOS:
-                    //RUN METHOD
                     testUser.printUserPhotosInfo();
                     break;
                 case EDIT_PHOTO_MENU_OPTION_EXIT:
@@ -161,25 +155,22 @@ public class Application {
                 case LIST_PRINT_PHOTO_MENU_OPTION_LIST_BY_TAG:
                     //RUN EDIT PHOTO DESCRIPTION METHOD ON USER
                     ui.output("taggr will run a keyword search and bring back all photos with tags that apply.");
-                    String tagToSearch = ui.promptForString("Please input the keyword you want to search for in your photoset's tags and hit enter.");
+                    String tagToSearch = ui.promptForString("Please input the keyword you want to search for in your photoSet's tags and hit enter.");
                     testUser.printUserPhotosTagSearch(tagToSearch);
                     break;
                 case LIST_PRINT_PHOTO_MENU_OPTION_LIST_BY_KEYWORD:
                     //RUN DELETE PHOTO METHOD ON USER
                     ui.output("taggr will run a keyword search and bring back all photos with descriptions that apply.");
-                    String descriptionKeyWord = ui.promptForString("Please input the keyword you want to search for in the photoset's descriptions and hit enter.");
+                    String descriptionKeyWord = ui.promptForString("Please input the keyword you want to search for in the photoSet's descriptions and hit enter.");
                     testUser.printUserPhotosDescriptionSearch(descriptionKeyWord);
                     break;
                 case LIST_PRINT_PHOTO_MENU_OPTION_LIST_INDEX_USER_TAGS:
-                    //RUN DELETE PHOTO METHOD ON USER
                     testUser.printUserTagsIndex();
                     break;
                 case LIST_PRINT_PHOTO_MENU_OPTION_LIST_USER_TAGS:
-                    //run method
                     ui.output(testUser.getUserTagsAsString());
                     break;
                 case LIST_PRINT_PHOTO_MENU_OPTION_LIST_USER_PHOTOS:
-                    //RUN METHOD
                     testUser.printUserPhotosInfo();
                     break;
                 case LIST_PRINT_PHOTO_MENU_EXIT:

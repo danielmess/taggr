@@ -1,14 +1,13 @@
 package taggr;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 public class Photo {
     private String photoURL;
     private String photoDescription;
-    private Set<String> tagsSet = new HashSet();
+    private Set<String> photoTagsSet = new HashSet();
 
     //set blank constructor
     public Photo(){}
@@ -17,7 +16,7 @@ public class Photo {
     public Photo(String photoURL, String photoDescription, Set tags) {
         this.photoURL = photoURL;
         this.photoDescription = photoDescription;
-        this.tagsSet = tags;
+        this.photoTagsSet = tags;
     }
 
 // set setters - no setter for tags; instead we do a specific method to Add tags to the tags Set.
@@ -41,13 +40,13 @@ public class Photo {
     }
 
     public Set getTags(){
-        return tagsSet;
+        return photoTagsSet;
     }
 
     public String getTagsAsString() { //returns tags as a comma-delimited String.
         String tagsPrintout = "";
-        if (tagsSet.size() > 0) {
-            for (String tag : tagsSet) {
+        if (photoTagsSet.size() > 0) {
+            for (String tag : photoTagsSet) {
                 tagsPrintout += tag + ", ";
             }
             //strips final ", " off
@@ -62,14 +61,14 @@ public class Photo {
     public void setTags(List<String> tagList) { //set tags from a given List of Strings
 
         for (String tag: tagList) {
-            tagsSet.add(tag);
+            photoTagsSet.add(tag);
         }
     }
 
     public void setTagsFromString(String tagsAsString){ //set tags from a single comma-delimited String
         String[] tagsArray = tagsAsString.split(", ");
         for(String tag: tagsArray){
-            this.tagsSet.add(tag);
+            this.photoTagsSet.add(tag);
         }
     }
 
@@ -81,7 +80,7 @@ public class Photo {
 
     public void printTags() { //print tags to Console
         String tagsPrintout = "";
-        for(String tag: tagsSet) {
+        for(String tag: photoTagsSet) {
             tagsPrintout += tag + ", ";
         }
         String tagsListWithCommas = tagsPrintout.substring(0,tagsPrintout.length()-2);
@@ -92,13 +91,13 @@ public class Photo {
     public void deleteTagsFromString(String tagsAsString){ //delete tags from a single comma-delimited String
         String[] tagsArray = tagsAsString.split(", ");
         for(String tag: tagsArray){
-            this.tagsSet.remove(tag);
+            this.photoTagsSet.remove(tag);
         }
     }
 
     //delete single tag from a Photo's tagsSet
     public void deleteTag(String tag) {
-        this.tagsSet.remove(tag);
+        this.photoTagsSet.remove(tag);
     }
 
 

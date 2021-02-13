@@ -2,8 +2,8 @@ package taggr;
 
 import java.util.*;
 
-//Class notes - as I get learn about persistence and security, I anticipate User private instance variables will expand
-//to include first name, last name, email, password, et cetera.
+//Class notes - as I learn about persistence and security, I anticipate User private instance variables will expand
+//to include first name, last name, email, password, et cetera. Or this might be implemented via SQL? Unclear at the moment.
 
 public class User {
     //set private instance variables
@@ -12,10 +12,11 @@ public class User {
     //a user couldn't accidentally add the same photo twice.
     //Sanitation is important for sanity!
 
+    //all of the User's tags are stored as a set.
     private Set<String> userTags = new HashSet();
 
-    private Map<String, Integer> tagsIndex = new HashMap<>(); //index with key of tag and value of # of tag occurrences
-    // in user's photoSet.
+    //index with key of tag and value of # of tag occurrences in user's photoSet
+    private Map<String, Integer> tagsIndex = new HashMap<>();
 
     //set blank constructor
     public User() {
@@ -58,22 +59,7 @@ public class User {
         photoSet.put(url, newPhoto);
         //add newPhoto's tags to user's userTags Set.
         Set<String> tagsToAdd = newPhoto.getTags();
-        for (String tag : tagsToAdd) { // look into adding the tagsToAdd Set to tagsSet
-            userTags.add(tag);
-        }
-        //updates user's tagsIndex - if tag is new, adds to tagsIndex with a value of 1;
-        //if tag already exists, increments the value by 1.
-        for (String tag : tagsToAdd) {
-            //checks to see if tagsIndex for User contains key already
-            if (tagsIndex.containsKey(tag)) {
-                //adds 1 to tag's value in tagsIndex if tag already exists
-                Integer tagOccurrence = tagsIndex.get(tag);
-                tagsIndex.replace(tag, tagOccurrence + 1);
-            } else {
-                //if tag does not already exist in user's tagsIndex, puts tag in as key with start val of 1.
-                tagsIndex.put(tag, 1);
-            }
-        }
+        addTagsToUserTagsAndTagsIndex(tagsToAdd);
     }
 
     //creates a new Photo and adds it to User's photoSet Map and its tags to User's userTags Set. updates tagsIndex.
@@ -85,22 +71,8 @@ public class User {
         //add newPhoto's tags to user's userTags Set:
         Set<String> tagsToAdd = photoSet.get(photoURL).getTags(); //photoSet.get(PhotoURL) returns the Value, which for
         //photoSet is a Photo Object. calling .getTags() on that Photo returns the String Set of tags
-        for (String tag : tagsToAdd) {
-            userTags.add(tag);
-        }
-        //updates user's tagsIndex - if tag is new, adds to tagsIndex with a value of 1;
-        //if tag already exists, increments the value by 1.
-        for (String tag : tagsToAdd) {
-            //checks to see if tagsIndex for User contains key already
-            if (tagsIndex.containsKey(tag)) {
-                //adds 1 to tag's value in tagsIndex if tag already exists
-                Integer tagOccurrence = tagsIndex.get(tag);
-                tagsIndex.replace(tag, tagOccurrence + 1);
-            } else {
-                //if tag does not already exist in user's tagsIndex, puts tag in as key with start val of 1.
-                tagsIndex.put(tag, 1);
-            }
-        }
+        //add the photos tags to user's userTags Set and update tagsIndex:
+        addTagsToUserTagsAndTagsIndex(tagsToAdd);
     }
 
     public void deletePhoto(Photo photoToDelete) {
@@ -108,20 +80,8 @@ public class User {
         String photoKey = photoToDelete.getUrl();
         //get set of tag Strings contained in Photo to be deleted.
         Set<String> tagsToDelete = photoSet.get(photoKey).getTags();
-        //set for-each loop to run through each tag
-        for (String tag : tagsToDelete) {
-            //boolean test to see if each tag only occurs once in the tagsIndex
-            if (tagsIndex.get(tag) == 1) {
-                //if tag only occurs once, deletes the tag from tagsIndex and userTags
-                tagsIndex.remove(tag);
-                userTags.remove(tag);
-            } else {
-                //if tag occurs more than once, reduces its occurrence value by one and leaves the tag
-                // in userTags alone.
-                Integer tagOccurrence = tagsIndex.get(tag);
-                tagsIndex.replace(tag, tagOccurrence - 1);
-            }
-        }
+        //run delete tags submethod
+        deleteTagsFromIndexAndUserTags(tagsToDelete);
         //removes photo from photoSet
         photoSet.remove(photoKey);
     }
@@ -250,76 +210,39 @@ public class User {
         Set<String> tagsToAdd = new HashSet(Arrays.asList(tagsArray));
         //creates new Photo and adds it to photoSet Map as a Value with photoURL as the unique key
         this.photoSet.put(url, new Photo(url, photoDescription, tagsToAdd));
-        // adds new Photo's tag Strings to the userTags String Set.
-        for (String tag : tagsToAdd) {
-            userTags.add(tag);
-        }
-        //updates user's tagsIndex - if tag is new, adds to tagsIndex with a value of 1;
-        //if tag already exists, increments the value by 1.
-        for (String tag : tagsToAdd) {
-            //checks to see if tagsIndex for User contains key already
-            if (tagsIndex.containsKey(tag)) {
-                //adds 1 to tag's value in tagsIndex if tag already exists
-                Integer tagOccurrence = tagsIndex.get(tag);
-                tagsIndex.replace(tag, tagOccurrence + 1);
-            } else {
-                //if tag does not already exist in user's tagsIndex, puts tag in as key with start val of 1.
-                tagsIndex.put(tag, 1);
-            }
-        }
+        // adds new Photo's tag Strings to the userTags String Set and updates tags index.
+        addTagsToUserTagsAndTagsIndex(tagsToAdd);
     }
 
     public void deletePhotoFromUser(String urlToDelete) {
-        //get user input for photo URL
-        System.out.println("Please enter the photo's URL and press Enter.");
-        Scanner input = new Scanner(System.in);
-        //sets key to use in appropriate maps.
-        String photoKey = input.nextLine();
+        String photoKey = urlToDelete;
         //get set of tag Strings contained in Photo to be deleted.
         Set<String> tagsToDelete = photoSet.get(photoKey).getTags();
-        //set for-each loop to run through each tag
-        for (String tag : tagsToDelete) {
-            //boolean test to see if each tag only occurs once in the tagsIndex
-            if (tagsIndex.get(tag) == 1) {
-                //if tag only occurs once, deletes the tag from tagsIndex and userTags
-                tagsIndex.remove(tag);
-                userTags.remove(tag);
-            } else {
-                //if tag occurs more than once, reduces its occurrence value by one.
-                Integer tagOccurrence = tagsIndex.get(tag);
-                tagsIndex.replace(tag, tagOccurrence - 1);
-            }
-        }
+        //run delete tags submethod
+        deleteTagsFromIndexAndUserTags(tagsToDelete);
         //removes photo from photoSet
         photoSet.remove(photoKey);
-
     }
 
 
 
 
     //submethods
-    public void addTagsToUser(Set<String> tagsToAdd){
+
+    //adds all tags to the users's userTags Set<String> and updates the user's tagsIndex.
+    public void addTagsToUserTagsAndTagsIndex(Set<String> tagsToAdd){
         // adds new Photo's tag Strings to the userTags String Set.
         for (String tag : tagsToAdd) {
             userTags.add(tag);
         }
-        //updates user's tagsIndex - if tag is new, adds to tagsIndex with a value of 1;
-        //if tag already exists, increments the value by 1.
+        //updates user's tagsIndex
         for (String tag : tagsToAdd) {
-            //checks to see if tagsIndex for User contains key already
-            if (tagsIndex.containsKey(tag)) {
-                //adds 1 to tag's value in tagsIndex if tag already exists
-                Integer tagOccurrence = tagsIndex.get(tag);
-                tagsIndex.replace(tag, tagOccurrence + 1);
-            } else {
-                //if tag does not already exist in user's tagsIndex, puts tag in as key with start val of 1.
-                tagsIndex.put(tag, 1);
-            }
+            addTagToTagsIndex(tag);
         }
     }
 
-    public void addTagToUser(String tag){
+    //adds a single tag to the user's tagsIndex and userTags if new, or updates the tagsIndex if pre-existing.
+    public void addTagToTagsIndex(String tag){
         //updates tag in User's tagsIndex; if tag already exists, increases value by 1. if tag doesn't already
         // exist, puts tag into tagsIndex and give it an initial occurrence value of 1.
         if (tagsIndex.containsKey(tag)) {
@@ -330,22 +253,25 @@ public class User {
         }
     }
 
-    public void deleteTags(Set<String> tagsToDelete){
-        //set for-each loop to run through each tag
+    //updates user's tagsIndex and deletes from tagsIndex and userTags if needed.
+    public void deleteTagsFromIndexAndUserTags(Set<String> tagsToDelete) {
+        //set for-each loop to run through each tag n do delete tag method
         for (String tag : tagsToDelete) {
-            //boolean test to see if each tag only occurs once in the tagsIndex
-            if (tagsIndex.get(tag) == 1) {
-                //if tag only occurs once, deletes the tag from tagsIndex and userTags
-                tagsIndex.remove(tag);
-                userTags.remove(tag);
-            } else {
-                //if tag occurs more than once, reduces its occurrence value by one.
-                Integer tagOccurrence = tagsIndex.get(tag);
-                tagsIndex.replace(tag, tagOccurrence - 1);
-            }
+            deleteTagFromTagsIndex(tag);
         }
     }
 
-
+    //updates a single tag and deletes if necessary from tagsIndex and userTags.
+    public void deleteTagFromTagsIndex(String tag){
+        if (tagsIndex.get(tag) == 1) {
+            //if tag only occurs once, deletes the tag from tagsIndex and userTags
+            tagsIndex.remove(tag);
+            userTags.remove(tag);
+        } else {
+            //if tag occurs more than once, reduces its occurrence value by one.
+            Integer tagOccurrence = tagsIndex.get(tag);
+            tagsIndex.replace(tag, tagOccurrence - 1);
+        }
+    }
 
 }
