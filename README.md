@@ -17,8 +17,9 @@ and grow taggr as my skills increase. Anticipated updates include:
 <li> <strike>a fully built out nested menu at the command-line level</strike> <b>implemented 1-31-2021!</b></li>
 <li> <strike>a <b>better</b> nested menu at the command-line level</strike> <b>implemented 2-7-2021!</b></li>
 <li> <strike>reducing code redundancy through submethods</strike> <b>implemented 2-13-2021!</b> </li>
-<li> persistence, allowing the saving of multiple user profiles with photo info, likely in a SQL database</li>
-<li> security, allowing a user's account to be password protected</li>
+<li> moving taggr to using a DAO pattern to work with a SQL database, solving the persistence issue and allowing multiple users</li>
+<li> security, allowing a user's account to be password protected. Planning on implementing Argon2 for hashing/salting</li>
+<li> allowing password reset for users via email confirmation</li>
 <li> moving taggr from a command-line interface to a web-based interface</li>
 <li> creating gallery options based on using web scraping techniques</li>
 <li> an auto-import function, allowing you to add all of the photos from a your Instagram account into your photoSet 
