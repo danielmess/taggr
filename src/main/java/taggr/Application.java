@@ -9,6 +9,10 @@ public class Application {
     private static final String MAIN_MENU_OPTION_EXIT = "Exit taggr";
 
     //future strings for user menu can be listed here.
+    private static final String USER_MENU_OPTION_LOGIN = "Login with your user id and password";
+    private static final String USER_MENU_OPTION_CREATE_USER = "Create a new user and password";
+    private static final String USER_MENU_OPTION_LOGOUT = "Logout of the current user profile";
+    private static final String USER_MENU_OPTION_EXIT = "Exit to Main Menu";
 
     //list add/delete photo submenu option strings
     private static final String ADD_DELETE_MENU_OPTION_ADD_PHOTO = "Add a Photo to current User's Photoset";
@@ -40,6 +44,8 @@ public class Application {
 
     //User menu options String[] will go here in future implementation.
 
+    private static final String[] USER_MENU_OPTIONS = {USER_MENU_OPTION_LOGIN, USER_MENU_OPTION_CREATE_USER, USER_MENU_OPTION_LOGOUT, USER_MENU_OPTION_EXIT};
+
     private static final String[] ADD_DELETE_MENU_OPTIONS = {ADD_DELETE_MENU_OPTION_ADD_PHOTO, ADD_DELETE_MENU_OPTION_DELETE_PHOTO, ADD_DELETE_MENU_EXIT};
 
     private static final String[] EDIT_PHOTO_MENU_OPTIONS = {EDIT_PHOTO_MENU_OPTION_NEW_DESCRIPTION, EDIT_PHOTO_MENU_OPTION_ADD_TAG,
@@ -68,6 +74,7 @@ public class Application {
             switch (mainSelection) {
                 case MAIN_MENU_OPTION_USER_MENU:
                     ui.output("User options are not yet implemented");
+                    //userSubMenu(); - commented out until User Menu methods are implemented
                     break;
                 case MAIN_MENU_OPTION_ADD_DELETE_MENU:
                     //RUN ADD/DELETE METHOD, DEFINED BELOW
@@ -84,6 +91,26 @@ public class Application {
                 case MAIN_MENU_OPTION_EXIT:
                     ui.output("Thank you for using taggr. Have a great day and keep snapping!");
                     mainMenuLoopFinished = true;
+                    break;
+            }
+        }
+    }
+
+    public void userSubMenu(){
+        boolean userSubMenuFinished = false;
+        while (!userSubMenuFinished) {
+            String userMenuSelection = ui.promptForSelection(USER_MENU_OPTIONS);
+            switch (userMenuSelection) {
+                case USER_MENU_OPTION_LOGIN:
+                    //add log-in method here
+                    break;
+                case USER_MENU_OPTION_CREATE_USER:
+                    //add user creation method here
+                    break;
+                case USER_MENU_OPTION_LOGOUT:
+                    //add user logout method here
+                case USER_MENU_OPTION_EXIT:
+                    userSubMenuFinished = true;
                     break;
             }
         }

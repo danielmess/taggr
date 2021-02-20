@@ -8,6 +8,12 @@ import java.util.*;
 public class User {
     //set private instance variables
     private String userName;
+    private String first_name;
+    private String last_name;
+    private String email;
+    private String password;
+    private String salt;
+
     private Map<String, Photo> photoSet = new HashMap<>(); //photoSet uses the photo's URL as its key value, meaning that
     //a user couldn't accidentally add the same photo twice.
     //Sanitation is important for sanity!
@@ -25,6 +31,15 @@ public class User {
     //set constructor with userName as sole parameter
     public User(String userName) {
         this.userName = userName;
+    }
+
+    //set fully parameterized constructor
+    public User (String userName, String password, String first_name, String last_name, String email){
+        this.userName = userName;
+        this.password = password;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.email = email;
     }
 
     //set setters - no setter for photoSet, userTags, or tagsIndex because those should *only* be affected by adding Photos
