@@ -17,7 +17,7 @@ and grow taggr as my skills increase. Anticipated updates include:
 <li> <strike>a fully built out nested menu at the command-line level</strike> <b>implemented 1-31-2021!</b></li>
 <li> <strike>a <b>better</b> nested menu at the command-line level</strike> <b>implemented 2-7-2021!</b></li>
 <li> <strike>reducing code redundancy through submethods</strike> <b>implemented 2-13-2021!</b> </li>
-<li> moving taggr to using a DAO pattern to work with a SQL database, solving the persistence issue and allowing multiple users</li>
+<li> moving taggr to using a DAO pattern to work with a SQL database, solving the persistence issue and allowing multiple users. the 2-20-21 update is the beginning of this move. New classes have been added, as well as a script for a SQL database. Need to finish figuring out all of my SQL logic, then write my Spring JDBC methods and integration tests, and then implement user state.</li>
 <li> security, allowing a user's account to be password protected. Planning on implementing Argon2 for hashing/salting</li>
 <li> allowing password reset for users via email confirmation</li>
 <li> moving taggr from a command-line interface to a web-based interface</li>
