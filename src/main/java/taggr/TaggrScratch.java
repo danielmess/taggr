@@ -7,6 +7,10 @@ import java.util.Set;
 public class TaggrScratch {
    //this is where I stick old methods, Just In Case. a GNDN Class.
 
+
+
+
+
     //set CL methods
 //    public void addPhotoFromCommandLine() {
 //        //get user input for photo URL, description, and tags

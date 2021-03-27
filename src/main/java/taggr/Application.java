@@ -1,5 +1,23 @@
 package taggr;
 
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import taggr.dao.PhotoDAO;
+import taggr.dao.TagDAO;
+import taggr.dao.UserDAO;
+import taggr.models.Photo;
+import taggr.models.Tag;
+import taggr.models.TagIndexDTO;
+import taggr.models.User;
+import taggr.dao.jdbc.JDBCuserDAO;
+import taggr.dao.jdbc.JDBCphotoDAO;
+import taggr.dao.jdbc.JDBCtagDAO;
+
+import javax.sql.DataSource;
+import java.util.List;
+import java.util.Set;
+
+
 public class Application {
     //list main menu option strings
     private static final String MAIN_MENU_OPTION_USER_MENU = "User Options - Unimplemented";
@@ -57,9 +75,14 @@ public class Application {
             LIST_PRINT_PHOTO_MENU_OPTION_LIST_USER_TAGS, LIST_PRINT_PHOTO_MENU_OPTION_LIST_USER_PHOTOS, LIST_PRINT_PHOTO_MENU_EXIT};
 
     private final MenuAndCLI ui = new MenuAndCLI(System.in, System.out);
-    private   User testUser = new User("Tester T. Testerington");
+    private User testUser = new User();
+
 
     public static void main(String[] args) {
+        /* This datasource will be used for creating connections to the database.
+         * Below, we provide the information required to make database connections */
+
+
         Application application = new Application();
         application.run();
     }
@@ -67,14 +90,31 @@ public class Application {
     public void run() {
         //prework before menu
         System.out.println("Hello! Welcome to the command-line version of Taggr!");
+        BasicDataSource taggrDataSource = new BasicDataSource();
+
+
+        taggrDataSource.setUrl("jdbc:postgresql://localhost:5432/taggr");
+        taggrDataSource.setUsername("postgres");
+        taggrDataSource.setPassword("postgres1");
+
+        /* The JdbcTemplate is the main interface we use to interact with databases using
+         * Spring JDBC. */
+        JdbcTemplate taggrJDBCTemplate = new JdbcTemplate(taggrDataSource);
+
+
+
+        UserDAO userDA0 = new JDBCuserDAO(taggrDataSource);
+        TagDAO tagDAO = new JDBCtagDAO(taggrDataSource);
+        PhotoDAO photoDAO = new JDBCphotoDAO(taggrDataSource, tagDAO);
+
 
         boolean mainMenuLoopFinished = false;
         while (!mainMenuLoopFinished) {
             String mainSelection = ui.promptForSelection(MAIN_MENU_OPTIONS);
             switch (mainSelection) {
                 case MAIN_MENU_OPTION_USER_MENU:
-                    ui.output("User options are not yet implemented");
-                    //userSubMenu(); - commented out until User Menu methods are implemented
+                    //ui.output("User options are not yet implemented");
+                    userSubMenu(); //- commented out until User Menu methods are implemented - allowing for demo
                     break;
                 case MAIN_MENU_OPTION_ADD_DELETE_MENU:
                     //RUN ADD/DELETE METHOD, DEFINED BELOW
@@ -102,7 +142,11 @@ public class Application {
             String userMenuSelection = ui.promptForSelection(USER_MENU_OPTIONS);
             switch (userMenuSelection) {
                 case USER_MENU_OPTION_LOGIN:
-                    //add log-in method here
+
+//                    String username = ui.promptForString("Please enter the username to log in as. This is terrible security, I know.  ");
+                    long newUserID = ui.promptForLong("Please enter the userID to log in as. This is terrible security but do it anyways!  ");
+                    testUser.setUser_id(newUserID);
+//                    testUser.setUserName(username);
                     break;
                 case USER_MENU_OPTION_CREATE_USER:
                     //add user creation method here
@@ -116,20 +160,39 @@ public class Application {
         }
     }
 
-    public void addDeleteSubMenu() {
+    public void addDeleteSubMenu(){
+        BasicDataSource taggrDataSource = new BasicDataSource();
+
+
+        taggrDataSource.setUrl("jdbc:postgresql://localhost:5432/taggr");
+        taggrDataSource.setUsername("postgres");
+        taggrDataSource.setPassword("postgres1");
+
+        /* The JdbcTemplate is the main interface we use to interact with databases using
+         * Spring JDBC. */
+        JdbcTemplate taggrJDBCTemplate = new JdbcTemplate(taggrDataSource);
+
+
+
+        UserDAO userDA0 = new JDBCuserDAO(taggrDataSource);
+        TagDAO tagDAO = new JDBCtagDAO(taggrDataSource);
+        PhotoDAO photoDAO = new JDBCphotoDAO(taggrDataSource, tagDAO);
         boolean addDeleteSubMenuLoopFinished = false;
         while (!addDeleteSubMenuLoopFinished) {
             String addDeleteSelection = ui.promptForSelection(ADD_DELETE_MENU_OPTIONS);
             switch (addDeleteSelection) {
                 case ADD_DELETE_MENU_OPTION_ADD_PHOTO:
-                    String url = ui.promptForString("Please enter the URL of the photo to add");
-                    String photoDescription = ui.promptForString("Please enter the description of the photo to add.");
-                    String tagsString = ui.promptForString("Please enter all tags you'd like the photo to have, separated by a comma and a space. Hit enter when finished.");
-                    testUser.addPhotoToUser(url, photoDescription, tagsString);
+                    String url = ui.promptForString("Please enter the URL of the photo to add:  ");
+                    String photoDescription = ui.promptForString("Please enter the description of the photo to add:  ");
+                    String tagsString = ui.promptForString("Please enter all tags you'd like the photo to have, separated by a comma and a space. Hit enter when finished.  ");
+                    Set<Tag> photoTagsSet = tagDAO.createTagsSetFromCSV(tagsString, testUser);
+//                    testUser.addPhotoToUser(url, photoDescription, tagsString);
+                    photoDAO.createNewPhotoAndAddToUserSQL(url, photoDescription, photoTagsSet, testUser);
                     break;
                 case ADD_DELETE_MENU_OPTION_DELETE_PHOTO:
-                    String urlToDelete = ui.promptForString("Please enter the URL of the photo to delete");
-                    testUser.deletePhotoFromUser(urlToDelete);
+                    String urlToDelete = ui.promptForString("Please enter the URL of the photo to delete:   ");
+                    //testUser.deletePhotoFromUser(urlToDelete);
+                    photoDAO.deletePhotoFromUserSQL(urlToDelete, testUser);
                     break;
                 case ADD_DELETE_MENU_EXIT:
                     addDeleteSubMenuLoopFinished = true;
@@ -139,33 +202,52 @@ public class Application {
     }
 
     public void editPhotoSubMenu() {
+        BasicDataSource taggrDataSource = new BasicDataSource();
+
+
+        taggrDataSource.setUrl("jdbc:postgresql://localhost:5432/taggr");
+        taggrDataSource.setUsername("postgres");
+        taggrDataSource.setPassword("postgres1");
+
+        /* The JdbcTemplate is the main interface we use to interact with databases using
+         * Spring JDBC. */
+        JdbcTemplate taggrJDBCTemplate = new JdbcTemplate(taggrDataSource);
+
+
+
+        UserDAO userDA0 = new JDBCuserDAO(taggrDataSource);
+        TagDAO tagDAO = new JDBCtagDAO(taggrDataSource);
+        PhotoDAO photoDAO = new JDBCphotoDAO(taggrDataSource, tagDAO);
         boolean editPhotoSubMenuLoopFinished = false;
         while (!editPhotoSubMenuLoopFinished) {
             String editSelection = ui.promptForSelection(EDIT_PHOTO_MENU_OPTIONS);
             switch (editSelection) {
                 case EDIT_PHOTO_MENU_OPTION_NEW_DESCRIPTION:
-                    String url = ui.promptForString("Please enter the photo URL and hit enter.");
-                    String newDescription = ui.promptForString("Please enter the new description and hit enter.");
-                    testUser.rewritePhotoDescription(url, newDescription);
+                    String url = ui.promptForString("Please enter the photo URL and hit enter.  ");
+                    String newDescription = ui.promptForString("Please enter the new description and hit enter.  ");
+                    //testUser.rewritePhotoDescription(url, newDescription);
+                    photoDAO.givePhotoNewDescriptionSQL(url, newDescription, testUser);
                     break;
                 case EDIT_PHOTO_MENU_OPTION_ADD_TAG:
-                    String urlAddTag = ui.promptForString("Please enter the photo URL and hit enter.");
-                    String newTag = ui.promptForString("Please enter the tag to add and hit enter.");
-                    testUser.addTagToPhoto(urlAddTag, newTag);
+                    String urlAddTag = ui.promptForString("Please enter the photo URL and hit enter.  ");
+                    String newTagString = ui.promptForString("Please enter the tag to add and hit enter.  ");
+                    photoDAO.addTagToPhotoSQL(urlAddTag, newTagString, testUser);
                     break;
                 case EDIT_PHOTO_MENU_OPTION_DELETE_TAG:
-                    String urlDelTag = ui.promptForString("Please enter the photo URL and hit enter.");
-                    String deleteTag = ui.promptForString("Please enter the tag to add and hit enter.");
-                    testUser.deleteTagFromPhoto(urlDelTag, deleteTag);
+                    String urlDelTag = ui.promptForString("Please enter the photo URL and hit enter.  ");
+                    String deleteTag = ui.promptForString("Please enter the tag to delete and hit enter.  ");
+                    photoDAO.deleteTagFromPhotoSQL(urlDelTag, deleteTag, testUser);
                     break;
                 case EDIT_PHOTO_MENU_OPTION_INDEX_USER_TAGS:
-                    testUser.printUserTagsIndex();
+                    List<TagIndexDTO> tagsIndex = tagDAO.getUserTagIndex(testUser);
+                    ui.printUserTagsIndexInfo(tagsIndex);
                     break;
                 case EDIT_PHOTO_MENU_OPTION_LIST_USER_TAGS:
                     ui.output(testUser.getUserTagsAsString());
                     break;
                 case EDIT_PHOTO_MENU_OPTION_LIST_USER_PHOTOS:
-                    testUser.printUserPhotosInfo();
+                    List<Photo> userPhotos = photoDAO.listAllUserPhotosFromSQL(testUser);
+                    ui.printPhotoListInfo(userPhotos);
                     break;
                 case EDIT_PHOTO_MENU_OPTION_EXIT:
                     editPhotoSubMenuLoopFinished = true;
@@ -175,30 +257,54 @@ public class Application {
     }
 
     public void listPrintPhotoSubMenu() {
+        BasicDataSource taggrDataSource = new BasicDataSource();
+
+
+        taggrDataSource.setUrl("jdbc:postgresql://localhost:5432/taggr");
+        taggrDataSource.setUsername("postgres");
+        taggrDataSource.setPassword("postgres1");
+
+        /* The JdbcTemplate is the main interface we use to interact with databases using
+         * Spring JDBC. */
+        JdbcTemplate taggrJDBCTemplate = new JdbcTemplate(taggrDataSource);
+
+
+
+        UserDAO userDA0 = new JDBCuserDAO(taggrDataSource);
+        TagDAO tagDAO = new JDBCtagDAO(taggrDataSource);
+        PhotoDAO photoDAO = new JDBCphotoDAO(taggrDataSource, tagDAO);
         boolean listPrintPhotoSubMenuLoopFinished = false;
         while (!listPrintPhotoSubMenuLoopFinished) {
             String listPrintSelection = ui.promptForSelection(LIST_PRINT_PHOTO_MENU_OPTIONS);
             switch (listPrintSelection) {
                 case LIST_PRINT_PHOTO_MENU_OPTION_LIST_BY_TAG:
-                    //RUN EDIT PHOTO DESCRIPTION METHOD ON USER
-                    ui.output("taggr will run a keyword search and bring back all photos with tags that apply.");
-                    String tagToSearch = ui.promptForString("Please input the keyword you want to search for in your photoSet's tags and hit enter.");
-                    testUser.printUserPhotosTagSearch(tagToSearch);
+
+                    ui.output("taggr will run a tag search and bring back all photos that apply.  ");
+                    String tagSearchString = ui.promptForString("Please input the keyword you want to search for in your photoSet's tags and hit enter.  ");
+//                    Tag tagToSearch = new Tag();
+//                    tagToSearch.setTagName(tagSearchString);
+//                    testUser.printUserPhotosTagSearch(tagToSearch);
+                    List<Photo> photoList = photoDAO.listUserPhotosBySearchTagSQL(tagSearchString, testUser);
+                    ui.printPhotoListInfo(photoList);
                     break;
                 case LIST_PRINT_PHOTO_MENU_OPTION_LIST_BY_KEYWORD:
-                    //RUN DELETE PHOTO METHOD ON USER
-                    ui.output("taggr will run a keyword search and bring back all photos with descriptions that apply.");
-                    String descriptionKeyWord = ui.promptForString("Please input the keyword you want to search for in the photoSet's descriptions and hit enter.");
-                    testUser.printUserPhotosDescriptionSearch(descriptionKeyWord);
+
+                    ui.output("taggr will run a keyword search and bring back all photos with descriptions that apply.  ");
+                    String descriptionKeyWord = ui.promptForString("Please input the keyword you want to search for in the photoSet's descriptions and hit enter.  ");
+//                    testUser.printUserPhotosDescriptionSearch(descriptionKeyWord);
+                    List<Photo> photoList1 = photoDAO.listUserPhotosBySearchDescSQL(descriptionKeyWord, testUser);
+                    ui.printPhotoListInfo(photoList1);
                     break;
                 case LIST_PRINT_PHOTO_MENU_OPTION_LIST_INDEX_USER_TAGS:
-                    testUser.printUserTagsIndex();
+                    List<TagIndexDTO> tagsIndex = tagDAO.getUserTagIndex(testUser);
+                    ui.printUserTagsIndexInfo(tagsIndex);
                     break;
                 case LIST_PRINT_PHOTO_MENU_OPTION_LIST_USER_TAGS:
                     ui.output(testUser.getUserTagsAsString());
                     break;
                 case LIST_PRINT_PHOTO_MENU_OPTION_LIST_USER_PHOTOS:
-                    testUser.printUserPhotosInfo();
+                    List<Photo> userPhotos = photoDAO.listAllUserPhotosFromSQL(testUser);
+                    ui.printPhotoListInfo(userPhotos);
                     break;
                 case LIST_PRINT_PHOTO_MENU_EXIT:
                     listPrintPhotoSubMenuLoopFinished = true;

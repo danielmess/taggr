@@ -1,6 +1,6 @@
 import org.junit.Assert;
 import org.junit.Test;
-import taggr.Photo;
+import taggr.models.Photo;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -14,10 +14,10 @@ public class PhotoTests {
     public void add_unparametized_photo_and_set_and_get_URL_and_description(){
         //arrange
         Photo sut = new Photo();
-        sut.setUrl("http.testURL//.com");
+        sut.setPhotoURL("http.testURL//.com");
         sut.setPhotoDescription("this is a test");
         //act
-        String result = sut.getUrl();
+        String result = sut.getPhotoURL();
         String result2 = sut.getPhotoDescription();
         //Assert
         Assert.assertEquals("http.testURL//.com", result);
@@ -31,7 +31,7 @@ public class PhotoTests {
         Set<String> sutTags = new HashSet<>(Arrays.asList("a", "b", "c"));
         //Act
         Photo sut = new Photo("testURL", "description", sutTags);
-        String result = sut.getUrl();
+        String result = sut.getPhotoURL();
         String result2 = sut.getPhotoDescription();
         Set result3 = sut.getTags();
         Assert.assertEquals("testURL", result);
