@@ -14,7 +14,8 @@
 </template>
 
 <script>
-import TagList from './TagList.Vue'
+import TagList from './TagList.vue';
+
 export default {
     name: 'photo-card',
     components: {
