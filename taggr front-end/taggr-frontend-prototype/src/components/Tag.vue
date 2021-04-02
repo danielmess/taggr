@@ -1,13 +1,13 @@
 <template>
   <div class="tag-button">
-    <button>{{ tag.tagName }}</button>
+    <button>{{ tagElement.tagName }}</button>
   </div>
 </template>
  
 <script>
 export default {
   name: 'tag',
-  props: ["tag"],
+  props: ["tagElement"],
 };
 </script>
  

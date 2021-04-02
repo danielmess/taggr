@@ -9,7 +9,9 @@
     <p class="photo-description">
       {{ photo.description }}
     </p>
-    <tag-list />
+    <tag-list 
+    v-bind="photo.tags in $store.state.photos" :key="photo.url" 
+    v-bind:tagArray="photo.tags"/>
   </div>
 </template>
 
@@ -41,15 +43,13 @@ export default {
   border: 2px solid black;
   border-radius: 10px;
   width: 350px;
-  height: 450px;
+  height: 650px;
   margin: 20px;
 }
 
 .photo-iframe{
-    width: 300 px;
-    max-width: 100%;
-    height: 338 px;
-    max-height:100%;
+    display: flex-column;
+    height: 60%;
 }
 
 </style>

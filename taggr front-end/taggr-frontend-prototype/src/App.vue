@@ -1,6 +1,6 @@
-<template>
+<template class="main">
   <div id="app">
-    <h1>Welcome to taggr</h1>
+    <h1>Welcome to <span class="logo">taggr</span></h1>
     <photo-list />
   </div>
 </template>
@@ -28,8 +28,17 @@ export default {
   background-color: aliceblue;
 }
 
+html{
+  background-color: aliceblue;
+}
+
 h1{
   text-align: center;
+}
+
+.logo{
+  color: rgb(27, 27, 194);
+  font-weight: bold;
 }
 
 </style>

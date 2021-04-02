@@ -1,17 +1,20 @@
 <template>
   <div class="tag-container">
-    <tag
-      v-for="tag in $store.state.photos.tags"
-      v-bind:key="tag.id"
-      v-bind:tag="tag"
-    />
-  </div>
+
+      <tag
+        v-for="tag in tagArray"
+        v-bind:key="tag.id"
+        v-bind:tagElement="tag"
+      />
+    </div>
+
 </template>
  
 <script>
-import Tag from './Tag.vue';
+import Tag from "./Tag.vue";
 export default {
-  name: 'tag-list',
+  name: "tag-list",
+  props: ["tagArray"],
   components: {
     Tag,
   },
