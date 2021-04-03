@@ -4,6 +4,7 @@ import com.techelevator.dao.PhotoDAO;
 import com.techelevator.dao.TagDAO;
 import com.techelevator.dao.UserDAO;
 import com.techelevator.exceptions.PhotoNotCreatedException;
+import com.techelevator.model.AddPhotoJSON;
 import com.techelevator.model.Photo;
 import com.techelevator.model.Tag;
 import com.techelevator.model.User;
@@ -32,7 +33,7 @@ public class AccountController {
         this.tagDAO = tagDAO;
     }
 
-    @RequestMapping(path = "/users", method = RequestMethod.GET)
+    @RequestMapping(path = "/users/photos", method = RequestMethod.GET)
     public List<Photo> findPhotosForLoggedInUser(Principal principal) throws UserPrincipalNotFoundException {
         if (principal != null){
             Long user_id = getCurrentUserID(principal);
@@ -42,13 +43,13 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(path = "/users", method = RequestMethod.POST)
-    public void addPhotoForLoggedInUser(Principal principal, String photoURL, String photoDescription, String tagsCSV ) throws PhotoNotCreatedException {
+    @RequestMapping(path = "/users/photos", method = RequestMethod.POST)
+    public void addPhotoForLoggedInUser(Principal principal, AddPhotoJSON addPhotoJSON) throws PhotoNotCreatedException {
         if (principal != null){
             Long user_id = getCurrentUserID(principal);
             User user = userDAO.getUserById(user_id);
-            Set<Tag> tagSet = tagDAO.createTagsSetFromCSV(tagsCSV,user);
-          photoDAO.createNewPhotoAndAddToUserSQL(photoURL, photoDescription, tagSet, user );
+            Set<Tag> tagSet = tagDAO.createTagsSetFromCSV(addPhotoJSON.getTagsCSV(), user);
+          photoDAO.createNewPhotoAndAddToUserSQL(addPhotoJSON.getPhotoURL(), addPhotoJSON.getDescription(), tagSet, user );
         }
     }
 

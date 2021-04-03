@@ -2,7 +2,7 @@
   <div class="photo-container">
     <photo-card
       v-for="photo in $store.state.currentUserPhotos"
-      v-bind:key="photo.url"
+      v-bind:key="photo.photoURL"
       v-bind:photo="photo"
     />
   </div>
@@ -10,10 +10,21 @@
 
 <script>
 import PhotoCard from './PhotoCard.vue'
+import photoService from '../services/PhotoService'
 export default {
     name: 'photo-list',
     components: {
         PhotoCard
+    },
+    created(){
+        this.getCurrentUserPhotos();
+    },
+    methods: {
+        getCurrentUserPhotos() {
+            photoService.listUserPhotos.then((response) => {
+                this.$store.commit("SET_USER_PHOTOS", response.data)
+            })
+        }
     }
 }
 </script>

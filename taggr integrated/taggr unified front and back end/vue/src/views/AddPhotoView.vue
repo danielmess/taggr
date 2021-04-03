@@ -1,19 +1,19 @@
 <template>
   <div id="home">
     <h1>Welcome to <span class="logo">taggr</span></h1>
-    <photo-list />
+    
   </div>
 </template>
 
 <script>
-import PhotoList from '../components/PhotoList.vue';
+
 
 
 export default {
   
-  name: "home",
+  name: "add-photo",
   components: {
-    PhotoList
+    
     
   }
 };
