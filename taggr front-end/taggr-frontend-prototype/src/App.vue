@@ -1,5 +1,5 @@
 <template class="main">
-  <div id="app">
+  <div id="home">
     <h1>Welcome to <span class="logo">taggr</span></h1>
     <photo-list />
   </div>
@@ -18,7 +18,7 @@ export default {
 </script>
 
 <style>
-#app {
+#home {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
