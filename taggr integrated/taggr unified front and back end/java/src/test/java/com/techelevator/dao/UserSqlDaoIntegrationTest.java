@@ -1,5 +1,6 @@
 package com.techelevator.dao;
 
+import com.techelevator.jdbc.UserSqlDAO;
 import com.techelevator.model.User;
 import org.junit.Assert;
 import org.junit.Before;
