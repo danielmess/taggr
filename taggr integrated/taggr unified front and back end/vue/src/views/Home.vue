@@ -1,6 +1,7 @@
 <template>
   <div id="home">
     <h1>Welcome to <span class="logo">taggr</span></h1>
+    
     <photo-list />
   </div>
 </template>

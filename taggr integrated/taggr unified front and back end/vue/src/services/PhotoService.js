@@ -9,6 +9,6 @@ export default{
         return http.get('/users/photos');
     },
     addCurrentUserPhoto(newPhotoJSON){
-        return http.post('/users/photos', newPhotoJSON)
+        return http.post('/users/photos', newPhotoJSON);
     }
 }

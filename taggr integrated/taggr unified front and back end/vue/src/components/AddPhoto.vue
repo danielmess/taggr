@@ -20,7 +20,10 @@
 </template>
 
 <script>
+import photoService from '../services/PhotoService'
+
 export default {
+    name: "add-photo",
     data() {
         return {
             newPhotoJSON: {
@@ -31,12 +34,37 @@ export default {
         }
     },
     methods: {
-        savePhoto(photoJSON){
-            
+        savePhoto(){
+            photoService.addCurrentUserPhoto(this.newPhotoJSON)
+            .then(response => {
+                if(response.status === 201) {
+                    this.$router.push('/');
+                    this.resetForm();
+                }
+            })
+            .catch(error => {
+                this.handleErrorResponse(error, "creating");
+                alert("Please check to make sure you entered things correctly!");
+                this.resetForm();
+            })
         },
         resetForm(){
             this.newPhotoJSON = {};
-        }
+        },
+        handleErrorResponse(error, verb) {
+      if (error.response) {
+        this.errorMsg =
+          "Error " + verb + " photo. Response received was '" +
+          error.response.statusText +
+          "'.";
+      } else if (error.request) {
+        this.errorMsg =
+          "Error " + verb + " photo. Server could not be reached.";
+      } else {
+        this.errorMsg =
+          "Error " + verb + " photo. Request could not be created.";
+      }
+    }
     }
 
 }

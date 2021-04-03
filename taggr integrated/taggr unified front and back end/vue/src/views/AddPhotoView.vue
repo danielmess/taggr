@@ -1,18 +1,21 @@
 <template>
-  <div id="home">
-    <h1>Welcome to <span class="logo">taggr</span></h1>
-    
+  <div id="addphotoview">
+    <h1>Add a photo to <span class="logo">taggr</span></h1>
+    <br>
+    <add-photo />
   </div>
 </template>
 
 <script>
+import AddPhoto from '../components/AddPhoto.vue';
 
 
 
 export default {
   
-  name: "add-photo",
+  name: "add-photo-view",
   components: {
+    AddPhoto
     
     
   }
@@ -20,7 +23,7 @@ export default {
 </script>
 
 <style>
-#home {
+#addphotoview {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

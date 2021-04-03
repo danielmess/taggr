@@ -1,39 +1,41 @@
 <template>
-  <div class="photo-container">
-    <photo-card
-      v-for="photo in $store.state.currentUserPhotos"
-      v-bind:key="photo.photoURL"
-      v-bind:photo="photo"
-    />
+  <div>
+    <router-link to="/addphoto">Add A New Photo</router-link>
+    <div class="photo-container">
+      <photo-card
+        v-for="photo in $store.state.currentUserPhotos"
+        v-bind:key="photo.photoURL"
+        v-bind:photo="photo"
+      />
+    </div>
   </div>
 </template>
 
 <script>
-import PhotoCard from './PhotoCard.vue'
-import photoService from '../services/PhotoService'
+import PhotoCard from "./PhotoCard.vue";
+import photoService from "../services/PhotoService";
 export default {
-    name: 'photo-list',
-    components: {
-        PhotoCard
+  name: "photo-list",
+  components: {
+    PhotoCard,
+  },
+ /**  created() {
+    this.getCurrentUserPhotos();
+  },*/
+  methods: {
+    getCurrentUserPhotos() {
+      photoService.listUserPhotos.then((response) => {
+        this.$store.commit("SET_USER_PHOTOS", response.data);
+      });
     },
-    created(){
-        this.getCurrentUserPhotos();
-    },
-    methods: {
-        getCurrentUserPhotos() {
-            photoService.listUserPhotos.then((response) => {
-                this.$store.commit("SET_USER_PHOTOS", response.data)
-            })
-        }
-    }
-}
+  },
+};
 </script>
 
 <style>
-.photo-container{
-        display:flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
+.photo-container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 }
-
 </style>

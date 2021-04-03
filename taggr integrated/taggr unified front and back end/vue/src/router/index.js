@@ -56,7 +56,7 @@ const router = new Router({
     },
     {
       path: "/addphoto",
-      name: "add-photo",
+      name: "add-photo-view",
       component: AddPhotoView,
       meta: {
         requiresAuth: true
