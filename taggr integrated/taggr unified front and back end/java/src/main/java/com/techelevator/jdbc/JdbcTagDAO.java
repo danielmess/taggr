@@ -21,7 +21,7 @@ public class JdbcTagDAO implements TagDAO {
 
     private JdbcTemplate jdbcTemplate;
 
-    public void JDBCtagDAO(DataSource dataSource) {
+    public JdbcTagDAO(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 

@@ -3,7 +3,7 @@
 
       <tag
         v-for="tag in tagArray"
-        v-bind:key="tag.tag_id"
+        v-bind:key="tag.tag_Id"
         v-bind:tagElement="tag"
       />
     </div>

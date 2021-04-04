@@ -16,7 +16,7 @@ public class Tag {
 
     }
 
-    public long getTagID() {
+    public long getTag_Id() {
         return tag_id;
     }
 

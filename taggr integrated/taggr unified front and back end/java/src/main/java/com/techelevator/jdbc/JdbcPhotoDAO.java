@@ -83,7 +83,7 @@ public class JdbcPhotoDAO implements PhotoDAO {
         String photoToAddSQL = "INSERT INTO photos (user_id, url, description) VALUES (?, ?, ?) ON CONFLICT DO NOTHING;";
 
         //inserts new Photo into SQL
-        jdbcTemplate.update(photoToAddSQL, user.getId(), photoToAdd.getPhotoURL(), photoToAdd.getPhotoDescription());
+        jdbcTemplate.update(photoToAddSQL, user.getId(), photoToAdd.getUrl(), photoToAdd.getDescription());
 
         //get new photo's newly made ID
         String sqlnewphotoquery = "SELECT photo_id, user_id, url, description FROM photos WHERE url = ? AND user_id = ?";
@@ -94,7 +94,7 @@ public class JdbcPhotoDAO implements PhotoDAO {
             newPhotos.add(thePhoto);
         }
         Photo sqlPhoto = newPhotos.get(0);
-        photoToAdd.setPhotoID(sqlPhoto.getPhotoID());
+        photoToAdd.setPhoto_Id(sqlPhoto.getPhoto_Id());
 
         //upsert photo's tags into tags table.
         for (Tag tag : tagsSet) {
@@ -104,17 +104,17 @@ public class JdbcPhotoDAO implements PhotoDAO {
         //get updated Set of UserTags from database tags table.
         Set<Tag> userTags = tagDAO.findUserTags(user.getId());
         //cycle through photo's tags
-        for(Tag phototag: tagsSet){
+        for(Tag photoTag: tagsSet){
             //cycle through userTags
-            for(Tag usertag: userTags){
-                if (phototag.getTag_Name().equalsIgnoreCase(usertag.getTag_Name())){
+            for(Tag userTag: userTags){
+                if (photoTag.getTag_Name().equalsIgnoreCase(userTag.getTag_Name())){
                     //inserts Tag ID into the tag in photo's tagset
-                    phototag.setTag_Id(usertag.getTagID());
+                    photoTag.setTag_Id(userTag.getTag_Id());
                 }
             }
             //insert photo's tag with its new tag_id and the photo's photo_id into photo_tag_relation table
             String sqlTagPhotoUpsert = "INSERT INTO photo_and_tag_relation (photo_id, tag_id) VALUES (?, ?) ON CONFLICT DO NOTHING;";
-            jdbcTemplate.update(sqlTagPhotoUpsert, photoToAdd.getPhotoID(), phototag.getTagID());
+            jdbcTemplate.update(sqlTagPhotoUpsert, photoToAdd.getPhoto_Id(), photoTag.getTag_Id());
         }
 
     }
@@ -130,7 +130,7 @@ public class JdbcPhotoDAO implements PhotoDAO {
             photoToDeleteList.add(thePhoto);
         }
         Photo photoToDelete = photoToDeleteList.get(0);
-        long photoToDeleteId = photoToDelete.getPhotoID();
+        long photoToDeleteId = photoToDelete.getPhoto_Id();
         //delete photo from photo table and photo and tag relation table
         String sqlDeleteTransaction = "BEGIN TRANSACTION; " + " DELETE FROM photo_and_tag_relation WHERE photo_id = ?;" +
                 "DELETE FROM photos WHERE photo_id = ? ;" + " COMMIT;";
@@ -165,11 +165,11 @@ public class JdbcPhotoDAO implements PhotoDAO {
     @Override
     public void addTagToPhotoSQL (String url, String tag, User user){
         Photo thePhoto = retrieveUserPhotoFromURLSQL(url, user);
-        long photoID = thePhoto.getPhotoID();
+        long photoID = thePhoto.getPhoto_Id();
         String sqlUpdate = "INSERT INTO tags (tag, user_id) VALUES (?, ?) ON CONFLICT DO NOTHING";
         jdbcTemplate.update(sqlUpdate, tag, user.getId());
         Tag newTag = tagDAO.findTagByName(tag, user);
-        long tagID = newTag.getTagID();
+        long tagID = newTag.getTag_Id();
         String sqlTagInsert ="INSERT INTO photo_and_tag_relation (photo_id, tag_id) VALUES (?,?) ON CONFLICT DO NOTHING";
         jdbcTemplate.update(sqlTagInsert, photoID, tagID);
     }
@@ -177,9 +177,9 @@ public class JdbcPhotoDAO implements PhotoDAO {
     @Override
     public void deleteTagFromPhotoSQL (String url, String tag, User user){
         Photo thePhoto = retrieveUserPhotoFromURLSQL(url, user);
-        long photoID = thePhoto.getPhotoID();
+        long photoID = thePhoto.getPhoto_Id();
         Tag tagToDelete = tagDAO.findTagByName(tag, user);
-        long tagID = tagToDelete.getTagID();
+        long tagID = tagToDelete.getTag_Id();
         String sqlDelete = "DELETE FROM photo_and_tag_relation WHERE tag_id = ? AND photo_id = ? ;";
         jdbcTemplate.update(sqlDelete, tagID, photoID);
         String sqlTagCleanupTransaction = "DELETE FROM tags WHERE user_id = ? AND tag_id NOT IN "+
@@ -204,7 +204,7 @@ public class JdbcPhotoDAO implements PhotoDAO {
             //cycle through each TagDTO - if it matches the PhotoID of thePhoto, converts theTagDTO into newTag,
             //then adds to Photo's TagSet
             for(TagDTO theTagDTO: userTagDTOs){
-                if(theTagDTO.getPhotoID() == thePhoto.getPhotoID()){
+                if(theTagDTO.getPhotoID() == thePhoto.getPhoto_Id()){
                     Tag newTag = tagDAO.convertTagDTOtoTag(theTagDTO);
                     Set<Tag> photoTags = thePhoto.getTags();
                     photoTags.add(newTag);
@@ -220,10 +220,10 @@ public class JdbcPhotoDAO implements PhotoDAO {
     @Override
     public Photo mapRowtoPhoto(SqlRowSet rowSet){
         Photo thePhoto = new Photo();
-        thePhoto.setPhotoID(rowSet.getLong("photo_id"));
+        thePhoto.setPhoto_Id(rowSet.getLong("photo_id"));
         thePhoto.setUser_id(rowSet.getLong("user_id"));
-        thePhoto.setPhotoURL(rowSet.getString("url"));
-        thePhoto.setPhotoDescription(rowSet.getString("description"));
+        thePhoto.setUrl(rowSet.getString("url"));
+        thePhoto.setDescription(rowSet.getString("description"));
         return thePhoto;
     }
 

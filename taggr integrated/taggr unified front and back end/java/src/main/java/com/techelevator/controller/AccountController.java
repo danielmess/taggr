@@ -43,7 +43,7 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(path = "/users/photos", method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE )
+    @RequestMapping(path = "/users/photos", method = RequestMethod.POST)
     public AddPhotoJSON addPhotoForLoggedInUser(@RequestBody AddPhotoJSON addPhotoJSON, Principal principal) throws PhotoNotCreatedException {
         if (principal != null){
             Long user_id = getCurrentUserID(principal);
@@ -51,6 +51,17 @@ public class AccountController {
             Set<Tag> tagsSet = tagDAO.createTagsSetFromCSV(addPhotoJSON.getTagsAsCSV(), user);
           photoDAO.createNewPhotoAndAddToUserSQL(addPhotoJSON.getUrl(), addPhotoJSON.getDescription(), tagsSet, user );
         return addPhotoJSON;
+        } else {
+            return null;
+        }
+    }
+
+    @RequestMapping(path = "/users/tags", method = RequestMethod.GET)
+    public Set<Tag> getTagsForLoggedInUser(Principal principal){
+        if (principal != null){
+            Long user_id = getCurrentUserID(principal);
+            User user = userDAO.getUserById(user_id);
+            return tagDAO.findUserTags(user.getId());
         } else {
             return null;
         }

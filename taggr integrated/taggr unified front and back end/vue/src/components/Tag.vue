@@ -1,6 +1,6 @@
 <template>
   <div class="tag-button">
-    <button>{{ tagElement.tagName }}</button>
+    <button>{{ tagElement.tag_Name }}</button>
   </div>
 </template>
  
