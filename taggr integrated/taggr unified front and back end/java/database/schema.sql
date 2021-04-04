@@ -1,6 +1,9 @@
 BEGIN TRANSACTION;
 
-DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS photos CASCADE;
+DROP TABLE IF EXISTS tags CASCADE;
+DROP TABLE IF EXISTS photo_and_tag_relation CASCADE;
 DROP SEQUENCE IF EXISTS seq_user_id;
 
 CREATE SEQUENCE seq_user_id
@@ -10,7 +13,7 @@ CREATE SEQUENCE seq_user_id
   CACHE 1;
 
 
-CREATE TABLE users (
+CREATE TABLE users  (
 	user_id int DEFAULT nextval('seq_user_id'::regclass) NOT NULL,
 	username varchar(50) NOT NULL,
 	password_hash varchar(200) NOT NULL,
@@ -30,9 +33,9 @@ CREATE TABLE IF NOT EXISTS photos (
 
 CREATE TABLE IF NOT EXISTS tags (
         tag_id SERIAL PRIMARY KEY,
-        tag varchar(60) NOT NULL,
+        tag_name varchar(60) NOT NULL,
         user_id int NOT NULL,
-        UNIQUE (tag, user_id),
+        UNIQUE (tag_name, user_id),
 
         CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users(user_id)
         );

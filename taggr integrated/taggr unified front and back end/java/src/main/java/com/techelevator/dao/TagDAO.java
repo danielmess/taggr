@@ -12,7 +12,7 @@ import java.util.Set;
 public interface TagDAO {
     public Set<Tag> findUserTags(long userID);
 
-    public Set<Tag> createTagsSetFromCSV(String tagscsv, User user);
+    public Set<Tag> createTagsSetFromCSV(String tagsCsv, User user);
 
     public TagDTO mapRowToTagDTO(SqlRowSet rowSet);
 

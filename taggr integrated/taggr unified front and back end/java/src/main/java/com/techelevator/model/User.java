@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class User {
 
-   private Long id;
+   private Long user_id;
    private String username;
    @JsonIgnore
    private String password;
@@ -19,18 +19,18 @@ public class User {
    public User() { }
 
    public User(Long id, String username, String password, String authorities) {
-      this.id = id;
+      this.user_id = id;
       this.username = username;
       this.password = password;
       this.activated = true;
    }
 
    public Long getId() {
-      return id;
+      return user_id;
    }
 
    public void setId(Long id) {
-      this.id = id;
+      this.user_id = id;
    }
 
    public String getUsername() {
@@ -78,7 +78,7 @@ public class User {
       if (this == o) return true;
       if (o == null || getClass() != o.getClass()) return false;
       User user = (User) o;
-      return id == user.id &&
+      return user_id == user.user_id &&
               activated == user.activated &&
               Objects.equals(username, user.username) &&
               Objects.equals(password, user.password) &&
@@ -87,13 +87,13 @@ public class User {
 
    @Override
    public int hashCode() {
-      return Objects.hash(id, username, password, activated, authorities);
+      return Objects.hash(user_id, username, password, activated, authorities);
    }
 
    @Override
    public String toString() {
       return "User{" +
-              "id=" + id +
+              "id=" + user_id +
               ", username='" + username + '\'' +
               ", activated=" + activated +
               ", authorities=" + authorities +

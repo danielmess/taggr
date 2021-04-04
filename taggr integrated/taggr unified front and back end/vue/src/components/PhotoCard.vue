@@ -5,7 +5,7 @@
       class="photo-iframe"
       :src="instagramEmbed(photo.url)"
     />
-    <a :href="photo.photoURL">Original</a>
+    <a :href="photo.url">Original</a>
     <p class="photo-description">
       {{ photo.photoDescription }}
     </p>

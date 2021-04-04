@@ -1,31 +1,39 @@
 package com.techelevator.model;
 
-public class AddPhotoJSON {
-    private String photoURL;
-    private String description;
-    private String tagsCSV;
+import javax.validation.constraints.NotNull;
 
-    public String getPhotoURL() {
-        return photoURL;
+public class AddPhotoJSON {
+
+    @NotNull (message = "Photo description required!")
+    private String description;
+    @NotNull (message = "At least one tag required!")
+    private String tagsAsCSV;
+    @NotNull (message = "Photo url required!")
+    private String url;
+
+    public String getUrl() {
+        return url;
     }
+
 
     public String getDescription() {
         return description;
     }
 
-    public String getTagsCSV() {
-        return tagsCSV;
+    public String getTagsAsCSV() {
+        return tagsAsCSV;
     }
 
-    public void setPhotoURL(String photoURL) {
-        this.photoURL = photoURL;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public void setTagsCSV(String tagsCSV) {
-        this.tagsCSV = tagsCSV;
+    public void setTagsAsCSV(String tagsAsCSV) {
+        this.tagsAsCSV = tagsAsCSV;
     }
 }
+

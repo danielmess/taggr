@@ -2,39 +2,41 @@ package com.techelevator.model;
 
 public class Tag {
 
-    private String tagName= "";
-    private long tagID;
-    private long userID;
+    private String tag_name= "";
+    private long tag_id;
+    private long user_id;
+
 
     public Tag(){}
 
     public Tag(String tagName, long tagID, long userID){
-        this.tagName = tagName;
-        this.tagID = tagID;
-        this.userID = userID;
+        this.tag_name = tagName;
+        this.tag_id = tagID;
+        this.user_id = userID;
 
     }
 
     public long getTagID() {
-        return tagID;
+        return tag_id;
     }
 
-    public String getTagName() { return tagName;
+    public String getTag_Name() { return tag_name;
     }
 
-    public long getUserID() {
-        return userID;
+    public long getUser_Id() {
+        return user_id;
     }
 
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
+    public void setTag_Name(String tagName) {
+        this.tag_name = tagName;
     }
 
-    public void setTagID(long tagID) {
-        this.tagID = tagID;
+    public void setTag_Id(long tagID) {
+        this.tag_id = tagID;
     }
 
-    public void setUserID(long userID) {
-        this.userID = userID;
+    public void setUser_Id(long userID) {
+        this.user_id = userID;
     }
 }
+

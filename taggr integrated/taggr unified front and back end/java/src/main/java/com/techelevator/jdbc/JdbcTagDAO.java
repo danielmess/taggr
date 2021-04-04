@@ -40,7 +40,7 @@ public class JdbcTagDAO implements TagDAO {
     @Override
     public Set<TagDTO> findUserTagDTOs(long userID){
         Set<TagDTO> userTagDTOs = new HashSet<>();
-        String sqlUserTagDTOquery = "SELECT tag_id, tag, user_id, photo_and_tag_relation.photo_id FROM tags INNER JOIN photo_and_tag_relation ON tags.tag_id = photo_and_tag_relation.photo_id WHERE user_id = ? ;";
+        String sqlUserTagDTOquery = "SELECT tag_id, tag_name, user_id, photo_and_tag_relation.photo_id FROM tags INNER JOIN photo_and_tag_relation ON tags.tag_id = photo_and_tag_relation.photo_id WHERE user_id = ? ;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sqlUserTagDTOquery, userID);
         while(results.next()){
             TagDTO theTagDTO = mapRowToTagDTO(results);
@@ -50,14 +50,14 @@ public class JdbcTagDAO implements TagDAO {
     }
 
     @Override
-    public Set<Tag> createTagsSetFromCSV(String tagscsv, User user){
-        String[] tagnames = tagscsv.split(",");
+    public Set<Tag> createTagsSetFromCSV(String tagsCsv, User user){
+        String[] tagnames = tagsCsv.split(",");
         Set<Tag> photoTags = new HashSet<>();
         for(String tagname: tagnames){
             Tag theTag = new Tag();
             String trimmedTagName = tagname.trim();
-            theTag.setTagName(trimmedTagName);
-            theTag.setUserID(user.getId());
+            theTag.setTag_Name(trimmedTagName);
+            theTag.setUser_Id(user.getId());
             photoTags.add(theTag);
         }
         return photoTags;
@@ -65,10 +65,10 @@ public class JdbcTagDAO implements TagDAO {
 
     @Override
     public List<TagIndexDTO> getUserTagIndex(User user){
-        String sqlTagIndexQuery = "SELECT tags.tag_id, tags.tag, user_id, COUNT (photo_and_tag_relation.photo_id) AS count "+
+        String sqlTagIndexQuery = "SELECT tags.tag_id, tags.tag_name, user_id, COUNT (photo_and_tag_relation.photo_id) AS count "+
                 "FROM photo_and_tag_relation INNER JOIN tags on tags.tag_id = photo_and_tag_relation.tag_id "+
                 "WHERE user_id = ? "+
-                "GROUP BY tags.tag_id, tags.tag, user_id;";
+                "GROUP BY tags.tag_id, tags.tag_name, user_id;";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sqlTagIndexQuery, user.getId());
         List<TagIndexDTO> indexResults = new ArrayList<>();
@@ -82,9 +82,9 @@ public class JdbcTagDAO implements TagDAO {
     @Override
     public Tag mapRowToTag(SqlRowSet rowSet){
         Tag theTag = new Tag();
-        theTag.setTagID(rowSet.getLong("tag_id"));
-        theTag.setTagName(rowSet.getString("tag"));
-        theTag.setUserID(rowSet.getLong("user_id"));
+        theTag.setTag_Id(rowSet.getLong("tag_id"));
+        theTag.setTag_Name(rowSet.getString("tag_name"));
+        theTag.setUser_Id(rowSet.getLong("user_id"));
         return theTag;
     }
 
@@ -93,7 +93,7 @@ public class JdbcTagDAO implements TagDAO {
         TagDTO theTagDTO = new TagDTO();
         theTagDTO.setPhotoID(rowSet.getLong("photo_id"));
         theTagDTO.setTagID(rowSet.getLong("tag_id"));
-        theTagDTO.setTagName(rowSet.getString("tag"));
+        theTagDTO.setTagName(rowSet.getString("tag_name"));
         theTagDTO.setUserID(rowSet.getLong("user_id"));
         return theTagDTO;
     }
@@ -101,15 +101,15 @@ public class JdbcTagDAO implements TagDAO {
     @Override
     public Tag convertTagDTOtoTag(TagDTO tagDTO){
         Tag theTag = new Tag();
-        theTag.setUserID(tagDTO.getUserID());
-        theTag.setTagName(tagDTO.getTagName());
-        theTag.setTagID(tagDTO.getTagID());
+        theTag.setUser_Id(tagDTO.getUserID());
+        theTag.setTag_Name(tagDTO.getTagName());
+        theTag.setTag_Id(tagDTO.getTagID());
         return theTag;
     }
 
     @Override
     public Tag findTagByName(String tag, User user){
-        String sqlQuery = "SELECT tag_id, tag, user_id from tags WHERE tag = ? AND user_id = ?";
+        String sqlQuery = "SELECT tag_id, tag_name, user_id from tags WHERE tag_name = ? AND user_id = ?";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sqlQuery, tag, user.getId());
         List<Tag> tags = new ArrayList<>();
         while(results.next()){
@@ -123,7 +123,7 @@ public class JdbcTagDAO implements TagDAO {
         TagIndexDTO theTagIndexDTO = new TagIndexDTO();
         theTagIndexDTO.setCount(rowSet.getInt("count"));
         theTagIndexDTO.setTagID(rowSet.getLong("tag_id"));
-        theTagIndexDTO.setTagName(rowSet.getString("tag"));
+        theTagIndexDTO.setTagName(rowSet.getString("tag_name"));
         theTagIndexDTO.setUserID(rowSet.getLong("user_id"));
         return theTagIndexDTO;
     }

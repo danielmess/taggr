@@ -9,15 +9,15 @@ import com.techelevator.model.Photo;
 import com.techelevator.model.Tag;
 import com.techelevator.model.User;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Set;
+
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @RestController
 @CrossOrigin
@@ -43,13 +43,16 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(path = "/users/photos", method = RequestMethod.POST)
-    public void addPhotoForLoggedInUser(Principal principal, AddPhotoJSON addPhotoJSON) throws PhotoNotCreatedException {
+    @RequestMapping(path = "/users/photos", method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE )
+    public AddPhotoJSON addPhotoForLoggedInUser(@RequestBody AddPhotoJSON addPhotoJSON, Principal principal) throws PhotoNotCreatedException {
         if (principal != null){
             Long user_id = getCurrentUserID(principal);
             User user = userDAO.getUserById(user_id);
-            Set<Tag> tagSet = tagDAO.createTagsSetFromCSV(addPhotoJSON.getTagsCSV(), user);
-          photoDAO.createNewPhotoAndAddToUserSQL(addPhotoJSON.getPhotoURL(), addPhotoJSON.getDescription(), tagSet, user );
+            Set<Tag> tagsSet = tagDAO.createTagsSetFromCSV(addPhotoJSON.getTagsAsCSV(), user);
+          photoDAO.createNewPhotoAndAddToUserSQL(addPhotoJSON.getUrl(), addPhotoJSON.getDescription(), tagsSet, user );
+        return addPhotoJSON;
+        } else {
+            return null;
         }
     }
 

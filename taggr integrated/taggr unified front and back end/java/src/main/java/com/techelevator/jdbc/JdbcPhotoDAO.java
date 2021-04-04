@@ -20,7 +20,7 @@ public class JdbcPhotoDAO implements PhotoDAO {
     private JdbcTemplate jdbcTemplate;
     private TagDAO tagDAO;
 
-    public void JDBCphotoDAO(DataSource dataSource, TagDAO tagDAO) {
+    public  JdbcPhotoDAO(DataSource dataSource, TagDAO tagDAO) {
 
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.tagDAO = tagDAO;
@@ -32,7 +32,7 @@ public class JdbcPhotoDAO implements PhotoDAO {
         String sqlQuery = "SELECT DISTINCT photo_and_tag_relation.photo_id, photos.user_id, photos.url, photos.description " +
                 " FROM photo_and_tag_relation" + " INNER JOIN photos ON photo_and_tag_relation.photo_id = photos.photo_id" +
                 " WHERE photos.photo_id IN (" + " SELECT photo_and_tag_relation.photo_id FROM photo_and_tag_relation" +
-                " INNER JOIN tags ON tags.tag_id = photo_and_tag_relation.tag_id " + "WHERE tags.user_id = ? AND tags.tag ILIKE '%' || ? || '%' )";
+                " INNER JOIN tags ON tags.tag_id = photo_and_tag_relation.tag_id " + "WHERE tags.user_id = ? AND tags.tag_name ILIKE '%' || ? || '%' )";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sqlQuery, user.getId(), tag);
         while(results.next()){
             Photo thePhoto = mapRowtoPhoto(results);
@@ -47,11 +47,6 @@ public class JdbcPhotoDAO implements PhotoDAO {
     @Override
     public List<Photo>  listUserPhotosBySearchDescSQL(String keyword, User user) {
         List<Photo> userPhotos = new ArrayList<>();
-//        String sqlQuery = "SELECT photo_and_tag_relation.photo_id, photos.url, photos.description " +
-//                " FROM photo_and_tag_relation" + " INNER JOIN photos ON photo_and_tag_relation.photo_id = photos.photo_id" +
-//                " WHERE photos.photo_id IN (" + " SELECT photo_id" +
-//                " INNER JOIN tags on tags.tag_id = photo_and_tag_relation.tag_id " + "WHERE photos.user_id = ? AND photos.description ILIKE '%?%' )";
-
         String sqlQuery = "SELECT photo_id, user_id, url, description FROM photos WHERE user_id = ? AND description LIKE '%' || ? || '%' ";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sqlQuery, user.getId(), keyword);
         while(results.next()){
@@ -85,13 +80,9 @@ public class JdbcPhotoDAO implements PhotoDAO {
     public void createNewPhotoAndAddToUserSQL(String photoURL, String photoDescription, Set<Tag> tagsSet, User user) {
 
         Photo photoToAdd = new Photo(photoURL, photoDescription, tagsSet);
-//        long newPhotoID = getNextPhotoID();
-//        photoToAdd.setPhotoID(newPhotoID);
-
         String photoToAddSQL = "INSERT INTO photos (user_id, url, description) VALUES (?, ?, ?) ON CONFLICT DO NOTHING;";
+
         //inserts new Photo into SQL
-
-
         jdbcTemplate.update(photoToAddSQL, user.getId(), photoToAdd.getPhotoURL(), photoToAdd.getPhotoDescription());
 
         //get new photo's newly made ID
@@ -104,23 +95,24 @@ public class JdbcPhotoDAO implements PhotoDAO {
         }
         Photo sqlPhoto = newPhotos.get(0);
         photoToAdd.setPhotoID(sqlPhoto.getPhotoID());
+
         //upsert photo's tags into tags table.
         for (Tag tag : tagsSet) {
-            String sqlTagUpsert = "INSERT INTO tags (tag, user_id) VALUES (?, ?) ON CONFLICT DO NOTHING;";
-            jdbcTemplate.update(sqlTagUpsert, tag.getTagName(), user.getId());
+            String sqlTagUpsert = "INSERT INTO tags (tag_name, user_id) VALUES (?, ?) ON CONFLICT DO NOTHING;";
+            jdbcTemplate.update(sqlTagUpsert, tag.getTag_Name(), user.getId());
         }
-        //get updated Set of UserTags.
+        //get updated Set of UserTags from database tags table.
         Set<Tag> userTags = tagDAO.findUserTags(user.getId());
         //cycle through photo's tags
         for(Tag phototag: tagsSet){
             //cycle through userTags
             for(Tag usertag: userTags){
-                if (phototag.equals(usertag)){
-                    //inserts Tag ID into photo's tagset
-                    phototag.setTagID(usertag.getTagID());
+                if (phototag.getTag_Name().equalsIgnoreCase(usertag.getTag_Name())){
+                    //inserts Tag ID into the tag in photo's tagset
+                    phototag.setTag_Id(usertag.getTagID());
                 }
             }
-            //insert photo's tag with its new tag_id into photo-tag_relation table
+            //insert photo's tag with its new tag_id and the photo's photo_id into photo_tag_relation table
             String sqlTagPhotoUpsert = "INSERT INTO photo_and_tag_relation (photo_id, tag_id) VALUES (?, ?) ON CONFLICT DO NOTHING;";
             jdbcTemplate.update(sqlTagPhotoUpsert, photoToAdd.getPhotoID(), phototag.getTagID());
         }
@@ -199,7 +191,7 @@ public class JdbcPhotoDAO implements PhotoDAO {
         long userID = user.getId();
         //get user's TagDTOs
         List<TagDTO> userTagDTOs = new ArrayList<>();
-        String sqlQueryTags ="Select photo_and_tag_relation.photo_id, photo_and_tag_relation.tag_id, tags.tag, tags.user_id"+
+        String sqlQueryTags ="Select photo_and_tag_relation.photo_id, photo_and_tag_relation.tag_id, tags.tag_name, tags.user_id"+
                 " FROM photo_and_tag_relation INNER JOIN tags ON tags.tag_id = photo_and_tag_relation.tag_id"+
                 " WHERE tags.user_id = ? ;";
         SqlRowSet tagDAOresults = jdbcTemplate.queryForRowSet(sqlQueryTags, userID);
