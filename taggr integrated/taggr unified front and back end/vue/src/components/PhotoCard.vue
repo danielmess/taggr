@@ -7,7 +7,7 @@
     />
     <a :href="photo.url">Original</a>
     <p class="photo-description">
-      {{ photo.photoDescription }}
+      {{ photo.description }}
     </p>
     <tag-list 
     v-bind="photo.photoTagsSet in $store.state.currentUserPhotos" :key="photo.url" 
