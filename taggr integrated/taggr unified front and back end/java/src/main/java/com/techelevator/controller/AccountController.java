@@ -8,6 +8,7 @@ import com.techelevator.model.AddPhotoJSON;
 import com.techelevator.model.Photo;
 import com.techelevator.model.Tag;
 import com.techelevator.model.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +44,7 @@ public class AccountController {
         }
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/users/photos", method = RequestMethod.POST)
     public AddPhotoJSON addPhotoForLoggedInUser(@RequestBody AddPhotoJSON addPhotoJSON, Principal principal) throws PhotoNotCreatedException {
         if (principal != null){

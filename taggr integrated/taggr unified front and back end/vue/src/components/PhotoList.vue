@@ -1,7 +1,7 @@
 <template>
   <div>
     <router-link to="/addphoto">Add A New Photo</router-link> <br>
-    <button v-on:click="getCurrentUserPhotos()">load photos</button>
+    
     <div class="photo-container">
       <photo-card
         v-for="photo in $store.state.currentUserPhotos"
@@ -29,9 +29,9 @@ export default {
       });
     }
   },
- /**     created() {
+      created() {
     this.getCurrentUserPhotos();
-  }*/
+  }
 };
 </script>
 

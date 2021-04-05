@@ -11,7 +11,7 @@
     </p>
     <tag-list 
     v-bind="photo.photoTagsSet in $store.state.currentUserPhotos" :key="photo.url" 
-    v-bind:tagArray="photo.photoTagsSet"/>
+    v-bind:tagArray="photo.tags"/>
   </div>
 </template>
 
