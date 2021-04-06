@@ -18,6 +18,8 @@ Please note: you must have the backend server running *before* running the front
 
 Please also note: taggr is currently optimized for displaying Instagram-based photos. I'd like to be able to do image-scraping eventually, but right now photos are being displayed via iframe elements. Instagram works well for this, but Flicker straight-up blocks embedding in other websites.
 
+I also need to put example data in for a typical user into taggr's database schema. I'm hoping to have that done by end of day Wednesday the 7th, boot camp capstone work permitting.
+
 Taggr is still a work in progress! Here are some cool things I'm hoping to implement in the next few weeks:
 
 1) Updating a photo's description
