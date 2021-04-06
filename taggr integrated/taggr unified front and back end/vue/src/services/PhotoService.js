@@ -11,6 +11,9 @@ export default{
     },
     addCurrentUserPhoto(newPhotoJSON){
         return axios.post('/users/photos', newPhotoJSON);
+    },
+    deletePhoto(photoId){
+        return axios.delete(`/users/photos/${photoId}`);
     }
 
 }

@@ -13,7 +13,7 @@ import java.util.Set;
 public interface PhotoDAO {
     public void createNewPhotoAndAddToUserSQL(String photoURL, String photoDescription, Set<Tag> tagsSet, User user);
 
-    public void deletePhotoFromUserSQL (String photourl, User user);
+    public void deletePhotoFromUserSQL (long photoID, User user);
 
     public void givePhotoNewDescriptionSQL (String photourl, String newDescription, User user);
 

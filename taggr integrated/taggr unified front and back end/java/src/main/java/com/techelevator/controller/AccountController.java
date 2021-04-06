@@ -8,6 +8,7 @@ import com.techelevator.model.AddPhotoJSON;
 import com.techelevator.model.Photo;
 import com.techelevator.model.Tag;
 import com.techelevator.model.User;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -66,6 +67,16 @@ public class AccountController {
             return tagDAO.findUserTags(user.getId());
         } else {
             return null;
+        }
+    }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @RequestMapping(path = "/users/photos/{photoId}", method = RequestMethod.DELETE)
+    public void deleteUserPhoto(@PathVariable long photoId , Principal principal) {
+        if (principal != null) {
+            Long user_id = getCurrentUserID(principal);
+            User user = userDAO.getUserById(user_id);
+            photoDAO.deletePhotoFromUserSQL(photoId, user);
         }
     }
 

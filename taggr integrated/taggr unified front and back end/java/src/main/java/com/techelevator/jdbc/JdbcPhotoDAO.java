@@ -120,25 +120,27 @@ public class JdbcPhotoDAO implements PhotoDAO {
     }
 
     @Override
-    public void deletePhotoFromUserSQL (String photourl, User user){
-        //get photo's ID
-        String sqlQuery = "SELECT photo_id, user_id, url, description FROM photos WHERE user_id = ? AND url = ? ;";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sqlQuery, user.getId(), photourl);
-        List<Photo> photoToDeleteList = new ArrayList<>();
-        while(results.next()){
-            Photo thePhoto = mapRowtoPhoto(results);
-            photoToDeleteList.add(thePhoto);
+    public void deletePhotoFromUserSQL (long photoID, User user){
+        //get user id
+        Long user_id = user.getId();
+        //check to ensure photo belongs to user; if so, proceed with deletion.
+        String sqlPhotoCheck = "SELECT * FROM photos WHERE photo_id = ? AND user_id = ?";
+        SqlRowSet photoCheck = jdbcTemplate.queryForRowSet(sqlPhotoCheck, photoID, user_id);
+        List<Photo> photoToVerify = new ArrayList<>();
+        while(photoCheck.next()){
+            Photo thePhoto = mapRowtoPhoto(photoCheck);
+            photoToVerify.add(thePhoto);
         }
-        Photo photoToDelete = photoToDeleteList.get(0);
-        long photoToDeleteId = photoToDelete.getPhoto_Id();
+        Photo sqlPhoto = photoToVerify.get(0);
+        if(sqlPhoto.getPhoto_Id() == photoID && sqlPhoto.getUser_id() == user_id){
         //delete photo from photo table and photo and tag relation table
         String sqlDeleteTransaction = "BEGIN TRANSACTION; " + " DELETE FROM photo_and_tag_relation WHERE photo_id = ?;" +
-                "DELETE FROM photos WHERE photo_id = ? ;" + " COMMIT;";
-        jdbcTemplate.update(sqlDeleteTransaction, photoToDeleteId, photoToDeleteId);
+                "DELETE FROM photos WHERE photo_id = ? AND user_id = ? ;" + " COMMIT;";
+        jdbcTemplate.update(sqlDeleteTransaction, photoID, photoID, user_id);
         //cleanup tags for user that are no longer on photo_and_tag_relation
         String sqlTagCleanupTransaction = "DELETE FROM tags WHERE user_id = ? AND tag_id NOT IN "+
                 " (SELECT photo_and_tag_relation.tag_id " + "FROM photo_and_tag_relation) ;";
-        jdbcTemplate.update(sqlTagCleanupTransaction, user.getId());
+        jdbcTemplate.update(sqlTagCleanupTransaction, user_id);}
     }
 
     @Override
