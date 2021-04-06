@@ -1,5 +1,5 @@
 # taggr
--- my side project during full-stack Java bootcamp: a tool to help organize web-based photos. --
+
 
 My main side project during my bootcamp has been taggr, which I conceived of as a way to organize photos on web-based apps like Instagram, Flickr, Photobucket, and more.
 
