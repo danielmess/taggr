@@ -9,5 +9,5 @@ WHERE datname = 'taggr_final';
 
 DROP DATABASE taggr_final;
 
-DROP USER final_capstone_owner;
-DROP USER final_capstone_appuser;
+DROP USER final_taggr_owner;
+DROP USER final_taggr_appuser;
