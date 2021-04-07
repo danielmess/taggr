@@ -22,7 +22,9 @@ You can see how photos look when displayed for an example user by logging in wit
 
 Please note that the full-stack version of the app is in the 'taggr integrated' folder. What's under the 'taggr back-end prototype' and 'taggr front-end prototype' folders is the code I built while I was still learning in camp. It's still a little awkward, folks!
 
-Taggr is still a work in progress! Here are some cool things I'm hoping to implement in the next few weeks, in no particular order:
+Taggr is still a work in progress! There's a lot of functionality I had in the pure Java-and-Spring version that I haven't implemented into the full app yet, so there's a lot of methods floating around in my Java code for that. Some of that I'll adapt for modern usage, and some of it I'll trash.
+
+Here are some cool things I'm hoping to implement in the next few weeks, in no particular order:
 
 1) Updating a photo's description
 2) Deleting a tag from a photo
