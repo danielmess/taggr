@@ -18,9 +18,11 @@ Please note: you must have the backend server running *before* running the front
 
 Please also note: taggr is currently optimized for displaying Instagram-based photos. I'd like to be able to do image-scraping eventually, but right now photos are being displayed via iframe elements. Instagram works well for this, but Flicker straight-up blocks embedding in other websites.
 
-I also need to put example data in for a typical user into taggr's database schema. I'm hoping to have that done by end of day Wednesday the 7th, boot camp capstone work permitting.
+You can see how photos look when displayed for an example user by logging in with "danmess" as the user and "password" as the password. This example user has five photos, 18 tags, and 22 tag-photo relations stored in the database.
 
-Taggr is still a work in progress! Here are some cool things I'm hoping to implement in the next few weeks:
+Please note that the full-stack version of the app is in the 'taggr integrated' folder. What's under the 'taggr back-end prototype' and 'taggr front-end prototype' folders is the code I built while I was still learning in camp. It's still a little awkward, folks!
+
+Taggr is still a work in progress! Here are some cool things I'm hoping to implement in the next few weeks, in no particular order:
 
 1) Updating a photo's description
 2) Deleting a tag from a photo
@@ -29,10 +31,14 @@ Taggr is still a work in progress! Here are some cool things I'm hoping to imple
 5) Clicking on a photo's tag buttons to filter the logged-in user's photos
 6) Error handling on the backend side to handle adding a new photo that has no tags given
 7) Better styling in general.
+8) much much better JDoc-style documentation of my methods and functions
+
+<del>9) populating the database with an example user so you can see how taggr looks and functions right off the bat without adding photos yourself</del> **implemented 4-6-21!**
+
 
 Thanks go to: 
 
-- David Pfaltzgraff-Carlson, who when presented with the seed of the idea for taggr or a maze game, said firmly "Go with the photo organization one. That one can grow as you do."
+- David Pfaltzgraff-Carlson, who when presented with my potential side project possibilities of the seed of the idea for taggr or a maze game, said firmly "Go with the photo organization one. That one can grow as you do."
 - Katie Dwyer and Beth Campbell, who have contributed invaluable technical advice on particularly sticky problems
 - Kyle Kingsbury and Ralph Mess, whose emotional support and patience in letting me ramble about design ideas have been essential for me surviving my boot camp.
 
