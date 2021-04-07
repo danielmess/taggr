@@ -37,7 +37,7 @@ Here are some cool things I'm hoping to implement in the next few weeks, in no p
 9) Porting the backend of taggr to be hosted by heroku and the frontend to be hosted by netlify to make it easier for people to use!
 10) Code cleanup!!
 
-<del>10) populating the database with an example user so you can see how taggr looks and functions right off the bat without adding photos yourself</del> **implemented 4-6-21!**
+<del>11) populating the database with an example user so you can see how taggr looks and functions right off the bat without adding photos yourself</del> **implemented 4-6-21!**
 
 
 Thanks go to: 
