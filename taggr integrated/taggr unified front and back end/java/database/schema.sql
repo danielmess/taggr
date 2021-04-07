@@ -51,6 +51,10 @@ CREATE TABLE IF NOT EXISTS photo_and_tag_relation (
 
 INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
 INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
+INSERT INTO users (username,password_hash,role) VALUES ('danmess','$2a$10$DE2ZHxNrHeSvJvSx5dUhne5Jn6x1zt4l1hhhN50MugfHRmds6VRAW', 'ROLE_USER');
+
+INSERT INTO photos (user_id, url, description)
+VALUES (3,'https://www.instagram.com/p/CNVUYUwJmfw/','whole wheat oat and chocolate chip cookies')
 
 
 COMMIT TRANSACTION;
