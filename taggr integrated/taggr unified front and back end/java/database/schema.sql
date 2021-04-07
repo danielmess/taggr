@@ -60,7 +60,7 @@ VALUES (3,'https://www.instagram.com/p/CNVUYUwJmfw/','whole wheat oat and chocol
        (3, 'https://www.instagram.com/p/CNNr89PJuvs/', 'chicken salad rye toasts'),
        (3, 'https://www.instagram.com/p/CNNJDwEJeQ9/', 'eggs baked in spinach');
 
-INSERT INTO tags (tag_name, tag_id)
+INSERT INTO tags (tag_name, user_id)
 VALUES ('baking', 3),
 ('chocolate', 3),
 ('cookies', 3),
@@ -86,9 +86,22 @@ VALUES (1,1),
 (1,3),
 (1,4),
 (2,5),
-
-
-
-
+(2,6),
+(2,7),
+(2,8),
+(2,13),
+(3,7),
+(3,10),
+(3,8),
+(4,8),
+(4,11),
+(4,12),
+(4,13),
+(4,14),
+(5,15),
+(5,16),
+(5,17),
+(5,18),
+(5,8);
 
 COMMIT TRANSACTION;
