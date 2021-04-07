@@ -38,7 +38,7 @@ Taggr is still a work in progress! Here are some cool things I'm hoping to imple
 
 Thanks go to: 
 
-- David Pfaltzgraff-Carlson, who when presented with the seed of the idea for taggr or a maze game, said firmly "Go with the photo organization one. That one can grow as you do."
+- David Pfaltzgraff-Carlson, who when presented with my potential side project possibilities of the seed of the idea for taggr or a maze game, said firmly "Go with the photo organization one. That one can grow as you do."
 - Katie Dwyer and Beth Campbell, who have contributed invaluable technical advice on particularly sticky problems
 - Kyle Kingsbury and Ralph Mess, whose emotional support and patience in letting me ramble about design ideas have been essential for me surviving my boot camp.
 
