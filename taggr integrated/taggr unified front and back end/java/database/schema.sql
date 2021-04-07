@@ -54,7 +54,41 @@ INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpUL
 INSERT INTO users (username,password_hash,role) VALUES ('danmess','$2a$10$DE2ZHxNrHeSvJvSx5dUhne5Jn6x1zt4l1hhhN50MugfHRmds6VRAW', 'ROLE_USER');
 
 INSERT INTO photos (user_id, url, description)
-VALUES (3,'https://www.instagram.com/p/CNVUYUwJmfw/','whole wheat oat and chocolate chip cookies')
+VALUES (3,'https://www.instagram.com/p/CNVUYUwJmfw/','whole wheat oat and chocolate chip cookies'),
+       (3, 'https://www.instagram.com/p/CNSzS23pfP4/', 'egg salad on rye'),
+       (3, 'https://www.instagram.com/p/CNPukgcpQAS/', 'carrot cake pancakes'),
+       (3, 'https://www.instagram.com/p/CNNr89PJuvs/', 'chicken salad rye toasts'),
+       (3, 'https://www.instagram.com/p/CNNJDwEJeQ9/', 'eggs baked in spinach');
+
+INSERT INTO tags (tag_name, tag_id)
+VALUES ('baking', 3),
+('chocolate', 3),
+('cookies', 3),
+('healthy-ish', 3),
+('egg', 3),
+('light', 3),
+('Easter', 3),
+('brunch', 3),
+('carrot', 3),
+('pancake', 3),
+('herbs', 3),
+('chicken', 3),
+('rye', 3),
+('toast', 3),
+('eggs', 3),
+('vegetarian', 3),
+('mushroom', 3),
+('spinach', 3);
+
+INSERT INTO photo_and_tag_relation (photo_id, tag_id)
+VALUES (1,1),
+(1,2),
+(1,3),
+(1,4),
+(2,5),
+
+
+
 
 
 COMMIT TRANSACTION;
