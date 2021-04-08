@@ -1,4 +1,6 @@
-# Capstone Starter Project
+# This is the README for the starter code I received to run the backend for authorization and hooking up to a basic Postgres Database.
+
+## Capstone Starter Project
 
 ## Database
 
