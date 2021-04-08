@@ -80,6 +80,8 @@ export default {
   width: 350px;
   height: 650px;
   margin: 20px;
+  background-color: rgba(255, 255, 255, 0.692);
+
 }
 
 .photo-iframe{

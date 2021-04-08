@@ -1,6 +1,6 @@
 <template>
   <div class="tag-button">
-    <button>{{ tagElement.tag_Name }}</button>
+    <button v-bind:value="tagElement.tag_Id">{{ tagElement.tag_Name }}</button>
   </div>
 </template>
  
