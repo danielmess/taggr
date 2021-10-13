@@ -144,10 +144,17 @@ public class JdbcPhotoDAO implements PhotoDAO {
     }
 
     @Override
-    public void givePhotoNewDescriptionSQL (String photoURL, String newDescription, User user){
+    public void updatePhotoNewDescriptionSQL(String photoURL, String newDescription, User user){
         String sqlUpdatePhotoDesc = "UPDATE photos SET description = ? WHERE user_id = ? AND url = ? ;";
         jdbcTemplate.update(sqlUpdatePhotoDesc, newDescription, user.getId(), photoURL);
     }
+
+    @Override
+    public String retrieveUserPhotoURLFromPhotoId (long photoId, User user){
+        String photoQuery = "SELECT url from photos WHERE user_id = ? AND  photo_id = ? ;";
+        return jdbcTemplate.queryForObject(photoQuery, String.class, user.getId(), photoId);
+    }
+
 
     @Override
     public Photo retrieveUserPhotoFromURLSQL (String url, User user){
@@ -168,7 +175,7 @@ public class JdbcPhotoDAO implements PhotoDAO {
     public void addTagToPhotoSQL (String url, String tag, User user){
         Photo thePhoto = retrieveUserPhotoFromURLSQL(url, user);
         long photoID = thePhoto.getPhoto_Id();
-        String sqlUpdate = "INSERT INTO tags (tag, user_id) VALUES (?, ?) ON CONFLICT DO NOTHING";
+        String sqlUpdate = "INSERT INTO tags (tag_name, user_id) VALUES (?, ?) ON CONFLICT DO NOTHING";
         jdbcTemplate.update(sqlUpdate, tag, user.getId());
         Tag newTag = tagDAO.findTagByName(tag, user);
         long tagID = newTag.getTag_Id();

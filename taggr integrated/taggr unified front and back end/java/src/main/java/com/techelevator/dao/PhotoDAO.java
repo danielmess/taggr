@@ -15,9 +15,11 @@ public interface PhotoDAO {
 
     public void deletePhotoFromUserSQL (long photoID, User user);
 
-    public void givePhotoNewDescriptionSQL (String photourl, String newDescription, User user);
+    public void updatePhotoNewDescriptionSQL(String photourl, String newDescription, User user);
 
     public Photo retrieveUserPhotoFromURLSQL (String url, User user);
+
+    public String retrieveUserPhotoURLFromPhotoId (long photoId, User user);
 
     public void addTagToPhotoSQL (String url, String tag, User user);
 

@@ -4,10 +4,7 @@ import com.techelevator.dao.PhotoDAO;
 import com.techelevator.dao.TagDAO;
 import com.techelevator.dao.UserDAO;
 import com.techelevator.exceptions.PhotoNotCreatedException;
-import com.techelevator.model.AddPhotoJSON;
-import com.techelevator.model.Photo;
-import com.techelevator.model.Tag;
-import com.techelevator.model.User;
+import com.techelevator.model.*;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -45,6 +42,28 @@ public class AccountController {
         }
     }
 
+    @RequestMapping(path = "/users/photos/tags/{keyword}", method = RequestMethod.GET)
+    public List<Photo> findPhotosByTag(Principal principal, @PathVariable String keyword) throws UserPrincipalNotFoundException {
+        if (principal != null){
+            Long user_id = getCurrentUserID(principal);
+            User user = userDAO.getUserById(user_id);
+            return photoDAO.listUserPhotosBySearchTagSQL(keyword, user);
+        } else {
+            return null;
+        }
+    }
+
+    @RequestMapping(path = "/users/photos/desc/{keyword}", method = RequestMethod.GET)
+    public List<Photo> findPhotosByKeyword(Principal principal, @PathVariable String keyword) throws UserPrincipalNotFoundException {
+        if (principal != null){
+            Long user_id = getCurrentUserID(principal);
+            User user = userDAO.getUserById(user_id);
+            return photoDAO.listUserPhotosBySearchDescSQL(keyword, user);
+        } else {
+            return null;
+        }
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/users/photos", method = RequestMethod.POST)
     public AddPhotoJSON addPhotoForLoggedInUser(@RequestBody AddPhotoJSON addPhotoJSON, Principal principal) throws PhotoNotCreatedException {
@@ -70,6 +89,40 @@ public class AccountController {
         }
     }
 
+    @RequestMapping(path = "/users/tagindex", method = RequestMethod.GET)
+    public List<TagIndexDTO> getTagIndexForLoggedInUser(Principal principal){
+        if (principal != null){
+            Long user_id = getCurrentUserID(principal);
+            User user = userDAO.getUserById(user_id);
+            return tagDAO.getUserTagIndex(user);
+        } else {
+            return null;
+        }
+    }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @RequestMapping(path ="users/photos/{photoId}/desc", method = RequestMethod.PATCH)
+    public void updateUserPhotoDesc(@PathVariable long photoId, Principal principal,
+                                    @RequestBody Photo thePhoto) {
+        if (principal != null) {
+            Long user_id = getCurrentUserID(principal);
+            User user = userDAO.getUserById(user_id);
+            String photoURL = thePhoto.getUrl();
+            photoDAO.updatePhotoNewDescriptionSQL(photoURL, thePhoto.getDescription(), user);
+        }
+    }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @RequestMapping(path = "users/photos/{photoId}/tags/{newTag}", method = RequestMethod.PATCH)
+    public void addTagToPhoto(@PathVariable long photoId, Principal principal, @PathVariable String newTag){
+        if(principal != null){
+            Long user_id = getCurrentUserID(principal);
+            User user = userDAO.getUserById(user_id);
+            String photoURL = photoDAO.retrieveUserPhotoURLFromPhotoId(photoId, user);
+            photoDAO.addTagToPhotoSQL(photoURL, newTag, user);
+        }
+    }
+
     @ResponseStatus(HttpStatus.ACCEPTED)
     @RequestMapping(path = "/users/photos/{photoId}", method = RequestMethod.DELETE)
     public void deleteUserPhoto(@PathVariable long photoId , Principal principal) {
@@ -77,6 +130,19 @@ public class AccountController {
             Long user_id = getCurrentUserID(principal);
             User user = userDAO.getUserById(user_id);
             photoDAO.deletePhotoFromUserSQL(photoId, user);
+        }
+    }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @RequestMapping(path = "/users/photos/{photoId}/{tagId}", method = RequestMethod.DELETE)
+    public void deleteTagFromPhoto(@PathVariable long photoId, @PathVariable long tagId,
+                                   Principal principal) {
+        if (principal != null) {
+            Long user_id = getCurrentUserID(principal);
+            User user = userDAO.getUserById(user_id);
+            String url = photoDAO.retrieveUserPhotoURLFromPhotoId(photoId, user);
+            Tag theTag = tagDAO.findTagById(tagId, user);
+            photoDAO.deleteTagFromPhotoSQL(url,theTag.getTag_Name(),user);
         }
     }
 

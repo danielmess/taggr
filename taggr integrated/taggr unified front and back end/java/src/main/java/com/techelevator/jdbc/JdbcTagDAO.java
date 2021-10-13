@@ -109,8 +109,20 @@ public class JdbcTagDAO implements TagDAO {
 
     @Override
     public Tag findTagByName(String tag, User user){
-        String sqlQuery = "SELECT tag_id, tag_name, user_id from tags WHERE tag_name = ? AND user_id = ?";
+        String sqlQuery = "SELECT tag_id, tag_name, user_id from tags WHERE tag_name = ? AND user_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sqlQuery, tag, user.getId());
+        List<Tag> tags = new ArrayList<>();
+        while(results.next()){
+            Tag theTag = mapRowToTag(results);
+            tags.add(theTag);
+        }
+        return tags.get(0);
+    }
+
+    @Override
+    public Tag findTagById(long tagId, User user){
+        String sqlQuery = "Select tag_id, tag_name, user_id FROM tags WHERE tag_id = ? AND user_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sqlQuery, tagId, user.getId());
         List<Tag> tags = new ArrayList<>();
         while(results.next()){
             Tag theTag = mapRowToTag(results);

@@ -24,5 +24,7 @@ public interface TagDAO {
 
     public Tag findTagByName(String tag, User user);
 
+    public Tag findTagById(long tagId, User user);
+
     public List<TagIndexDTO> getUserTagIndex(User user);
 }
