@@ -1,6 +1,6 @@
 <template>
   <div>
-    <router-link to="/addphoto">Add A New Photo</router-link> <br>
+    
     
     <div class="photo-container">
       <photo-card

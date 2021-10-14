@@ -42,6 +42,12 @@ export default new Vuex.Store({
     SET_USER_PHOTOS(state, data){
       state.currentUserPhotos = data;
     },
+    FILTER_PHOTOS_BY_TAG(state, data){
+      state.currentUserPhotos = data;
+    },
+    FILTER_PHOTOS_BY_KEYWORD(state, data){
+      state.currentUserPhotos = data;
+    },
     DELETE_USER_PHOTO(state, id){
       state.currentUserPhotos.splice(
         state.currentUserPhotos.findIndex(photo => photo.photo_Id ===id),

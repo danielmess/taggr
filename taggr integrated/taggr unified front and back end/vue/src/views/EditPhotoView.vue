@@ -1,29 +1,31 @@
 <template>
-  <div id="home">
-    <h1>Welcome to <span class="logo">taggr</span></h1>
+  <div id="edit photoview">
+    <h1>Edit Photo Information</h1>
     <br>
-    <router-link to="{name: 'add-photo-view'}">Add A New Photo</router-link> <br>
+    <router-link to="{name: 'home'}">Return To Photo List</router-link> <br>
     <br>
-    <photo-list />
+    <edit-photo />
   </div>
 </template>
 
 <script>
-import PhotoList from '../components/PhotoList.vue';
+import AddPhoto from '../components/AddPhoto.vue';
+
 
 
 export default {
   
-  name: "home",
+  name: "edit-photo-view",
   components: {
-    PhotoList
+    EditPhoto
+    
     
   }
 };
 </script>
 
 <style>
-#home {
+#editphotoview {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

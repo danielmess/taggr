@@ -1,4 +1,5 @@
 <template>
+
   <div class="card">
     <br>
     <iframe
@@ -9,14 +10,18 @@
     <p class="photo-description">
       {{ photo.description }}
     </p>
+    <form>
+        <div>
+            <label for="newDescription">Enter New Description:</label>
+              <input type="text" name ="newDescription" v-model="newDescription">
+            </div>
+            <button type="submit" class="editDescription" v-on:click.prevent="editDescription">Change Description</button>
+        </form>
     <tag-list 
     v-bind="photo.photoTagsSet in $store.state.currentUserPhotos" :key="photo.url" 
     v-bind:tagArray="photo.tags"/>
         <br>
-        <div class="buttons">
-    <button class="editbutton" v-on:click="editPhoto(photo.photo_Id)">Edit this photo</button>
-    <button class="deletebutton" v-on:click="deletePhoto(photo.photo_Id)">Delete this photo</button>
-    </div>
+
   </div>
 </template>
 
@@ -26,6 +31,12 @@ import TagList from './TagList.vue';
 
 export default {
     name: 'photo-card',
+    data() {
+        return{
+            newDescription = '',
+            newTag = ''
+        }
+    },
     components: {
         TagList
     },
@@ -40,25 +51,9 @@ export default {
             }
 
         },
-        deletePhoto(id){
-          if (confirm("Deleting this photo is permanent and there is no undo. Are you sure?"
-          )
-          ){
-            PhotoService.deletePhoto(id)
-            .then((response) => {
-              if(response.status === 202){
-                alert("Photo successfully deleted.");
-                this.$store.commit("DELETE_USER_PHOTO", id);
-                this.$router.push('/');
-              }
-            })
-            .catch((error => {
-              this.handleErrorResponse(error, "deleting");
-            }))
-          }
 
-        },
-        // editPhoto(id){},
+        editDescription(){},
+
         handleErrorResponse(error, verb) {
       if (error.response) {
         this.errorMsg =
@@ -71,8 +66,8 @@ export default {
       } else {
         this.errorMsg =
           "Error " + verb + " phpto. Request could not be created.";
-      }
-    }
+            }
+        }
     }
 }
 </script>
@@ -93,18 +88,6 @@ export default {
     height: 60%;
 }
 
-.deletebutton{
-  background-color: rgba(204, 180, 211, 0.794);
-}
 
-.editbutton{
-  background-color: rgba(209, 186, 159, 0.794);
-  
-}
-
-.buttons{
-  display: flex;
-  justify-content: space-evenly;
-}
 
 </style>

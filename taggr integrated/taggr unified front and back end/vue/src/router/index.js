@@ -61,6 +61,14 @@ const router = new Router({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: "/editphoto",
+      name: "edit-photo-view",
+      component: AddPhotoView,
+      meta: {
+        requiresAuth: true
+      }
     }
   ]
 })
