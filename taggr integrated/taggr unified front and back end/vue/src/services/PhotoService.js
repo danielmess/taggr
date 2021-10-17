@@ -14,6 +14,12 @@ export default{
     },
     deletePhoto(photoId){
         return axios.delete(`/users/photos/${photoId}`);
+    },
+    keywordSearchUserPhotos(keyword){
+        return axios.get(`/users/photos/desc/${keyword}`)
+    },
+    tagFilterUserPhotos(tagName){
+        return axios.get(`users/photos/tags/${tagName}`)
     }
 
 }

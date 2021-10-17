@@ -6,6 +6,9 @@ import Logout from '../views/Logout.vue'
 import Register from '../views/Register.vue'
 import store from '../store/index'
 import AddPhotoView from '../views/AddPhotoView'
+import EditPhotoView from '../views/EditPhotoView'
+import TagIndexView from '../views/TagIndexView'
+import FilteredPhotosView from '../views/FilteredPhotosView'
 
 Vue.use(Router)
 
@@ -65,7 +68,23 @@ const router = new Router({
     {
       path: "/editphoto",
       name: "edit-photo-view",
-      component: AddPhotoView,
+      component: EditPhotoView,
+      meta: {
+        requiresAuth: true
+      }
+    },
+      {
+        path: "/tagindex",
+        name: "tag-index-view",
+        component: TagIndexView,
+        meta: {
+          requiresAuth: true
+        }
+    },
+    {
+      path: "/filteredphotos",
+      name: "filtered-photos-view",
+      component: FilteredPhotosView,
       meta: {
         requiresAuth: true
       }

@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import AddPhoto from '../components/AddPhoto.vue';
 
 
+import EditPhoto from '../components/EditPhoto.vue'
 
 export default {
   

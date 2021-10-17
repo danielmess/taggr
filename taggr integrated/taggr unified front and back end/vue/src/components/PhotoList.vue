@@ -31,6 +31,7 @@ export default {
   },
       created() {
     this.getCurrentUserPhotos();
+    this.$store.commit("FILTER_PHOTOS", []);
   }
 };
 </script>

@@ -26,15 +26,15 @@
 </template>
 
 <script>
-import PhotoService from '../services/PhotoService';
+// import PhotoService from '../services/PhotoService';
 import TagList from './TagList.vue';
 
 export default {
     name: 'photo-card',
     data() {
         return{
-            newDescription = '',
-            newTag = ''
+            // newDescription = '',
+            // newTag = ''
         }
     },
     components: {

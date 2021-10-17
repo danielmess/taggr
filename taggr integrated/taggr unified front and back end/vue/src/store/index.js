@@ -20,7 +20,44 @@ export default new Vuex.Store({
   state: {
     token: currentToken || '',
     user: currentUser || {},
-    currentUserPhotos: []
+    currentUserPhotos: [],
+    currentUserPhotosFiltered: [],
+    currentUserTagIndex: [    {
+      "tagName": "chocolate",
+      "tag_Id": 2,
+      "user_Id": 3,
+      "count": 4
+  },
+  {
+      "tagName": "cookies",
+      "tag_Id": 3,
+      "user_Id": 3,
+      "count": 1
+  },
+  {
+      "tagName": "healthy-ish",
+      "tag_Id": 4,
+      "user_Id": 3,
+      "count": 1
+  },
+  {
+      "tagName": "egg",
+      "tag_Id": 5,
+      "user_Id": 3,
+      "count": 1
+  },
+  {
+      "tagName": "light",
+      "tag_Id": 6,
+      "user_Id": 3,
+      "count": 1
+  },
+  {
+      "tagName": "Easter",
+      "tag_Id": 7,
+      "user_Id": 3,
+      "count": 2
+  }]
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -42,11 +79,8 @@ export default new Vuex.Store({
     SET_USER_PHOTOS(state, data){
       state.currentUserPhotos = data;
     },
-    FILTER_PHOTOS_BY_TAG(state, data){
-      state.currentUserPhotos = data;
-    },
-    FILTER_PHOTOS_BY_KEYWORD(state, data){
-      state.currentUserPhotos = data;
+    FILTER_PHOTOS(state, data){
+      state.currentUserPhotosFiltered = data;
     },
     DELETE_USER_PHOTO(state, id){
       state.currentUserPhotos.splice(

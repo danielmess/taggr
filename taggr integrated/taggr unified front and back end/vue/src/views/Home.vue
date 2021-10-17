@@ -2,7 +2,13 @@
   <div id="home">
     <h1>Welcome to <span class="logo">taggr</span></h1>
     <br>
-    <router-link to="{name: 'add-photo-view'}">Add A New Photo</router-link> <br>
+    <router-link v-bind:to="{name: 'add-photo-view'}">Add A New Photo</router-link> &nbsp;|&nbsp;
+    <router-link v-bind:to="{name: 'tag-index-view'}">Your Tags</router-link> &nbsp;|&nbsp;
+    <form>
+      <label for="keyword">Keyword To Search For In Descriptions:</label>
+      <input id="keyword" name="keyword" type="text" v-model="searchKeyword">
+      <button type="submit" class="keywoard search">Search</button>
+      </form>
     <br>
     <photo-list />
   </div>
@@ -10,7 +16,7 @@
 
 <script>
 import PhotoList from '../components/PhotoList.vue';
-
+import PhotoService from "@/services/PhotoService.js"
 
 export default {
   
@@ -18,7 +24,23 @@ export default {
   components: {
     PhotoList
     
+  },
+  data() {
+    return {
+      searchKeyword:""
+      }
+  },
+  methods:{
+    descriptionFilter(searchKeyword){
+  
+      PhotoService.
+      keywordSearchUserPhotos(searchKeyword)
+      .then((response) => {
+        this.$store.commit("FILTER_PHOTOS", response.data);
+      });
+    }
   }
+  
 };
 </script>
 

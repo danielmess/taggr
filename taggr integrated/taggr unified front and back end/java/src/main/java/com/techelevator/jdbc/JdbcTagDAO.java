@@ -134,9 +134,9 @@ public class JdbcTagDAO implements TagDAO {
     public TagIndexDTO mapRowToTagIndexDTO(SqlRowSet rowSet){
         TagIndexDTO theTagIndexDTO = new TagIndexDTO();
         theTagIndexDTO.setCount(rowSet.getInt("count"));
-        theTagIndexDTO.setTagID(rowSet.getLong("tag_id"));
+        theTagIndexDTO.setTag_Id(rowSet.getLong("tag_id"));
         theTagIndexDTO.setTagName(rowSet.getString("tag_name"));
-        theTagIndexDTO.setUserID(rowSet.getLong("user_id"));
+        theTagIndexDTO.setUser_Id(rowSet.getLong("user_id"));
         return theTagIndexDTO;
     }
 

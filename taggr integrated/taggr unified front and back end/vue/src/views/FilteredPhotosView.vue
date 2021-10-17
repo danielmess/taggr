@@ -1,25 +1,30 @@
 <template>
-  <div id="tagindexview">
+  <div id="filtered-photo-view">
     <h1>Welcome to <span class="logo">taggr</span></h1>
     <br>
-    <router-link v-bind:to="{name: 'home'}">All Photos</router-link> <br>
+    <router-link to="{name: 'home'}">Return To All Photos</router-link> <br>
     <br>
-    <h2>Your Tags</h2>
-    <tag-index />
-    <p> test</p>
+    <h1>Filtered Photos</h1><br>
+    <filtered-photo-list />
   </div>
 </template>
 
 <script>
-import TagIndex from '../components/TagIndex.vue';
 
+import FilteredPhotoList from '../components/FilteredPhotoList.vue';
 
 export default {
   
-  name: "tagindexview",
+  name: "filtered-photos-view",
   components: {
-    TagIndex
-    
+    FilteredPhotoList
+  },
+  data() {
+    return {
+      searchKeyword:""
+      }
+  },
+  methods:{
   }
 };
 </script>
@@ -39,7 +44,7 @@ html{
   background-color: aliceblue;
 }
 
-h1, h2{
+h1{
   text-align: center;
 }
 

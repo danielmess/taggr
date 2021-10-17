@@ -2,36 +2,36 @@ package com.techelevator.model;
 
 public class TagIndexDTO {
     private String tagName = "";
-    private long tagID;
-    private long userID;
+    private long tag_Id;
+    private long user_Id;
     private int count;
 
     public void setTagName(String tagName) {
         this.tagName = tagName;
     }
 
-    public void setTagID(long tagID) {
-        this.tagID = tagID;
+    public void setTag_Id(long tag_Id) {
+        this.tag_Id = tag_Id;
     }
 
-    public void setUserID(long userID) {
-        this.userID = userID;
+    public void setUser_Id(long user_Id) {
+        this.user_Id = user_Id;
     }
 
     public void setCount(int count) {
         this.count = count;
     }
 
-    public long getUserID() {
-        return userID;
+    public long getUser_Id() {
+        return user_Id;
     }
 
     public String getTagName() {
         return tagName;
     }
 
-    public long getTagID() {
-        return tagID;
+    public long getTag_Id() {
+        return tag_Id;
     }
 
     public int getCount() {
