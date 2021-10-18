@@ -4,7 +4,7 @@
     <br>
     <router-link v-bind:to="{name: 'add-photo-view'}">Add A New Photo</router-link> &nbsp;|&nbsp;
     <router-link v-bind:to="{name: 'tag-index-view'}">Your Tags</router-link> &nbsp;|&nbsp;
-    <form v-on:submit.prevent="descriptionFilter">
+    <form v-on:submit.prevent="descriptionFilter(searchKeyword)">
       <label for="keyword">Keyword To Search For In Descriptions:</label>
       <input id="keyword" name="keyword" type="text" v-model="searchKeyword">
       <button type="submit" class="keywoard search" >Search</button>
@@ -31,9 +31,9 @@ export default {
       }
   },
   methods:{
-    descriptionFilter(searchKeyword){
+    descriptionFilter(keyword){
       PhotoService.
-      keywordSearchUserPhotos(searchKeyword)
+      keywordSearchUserPhotos(keyword)
       .then((response) => {
         this.$store.commit("FILTER_PHOTOS", response.data);
       });

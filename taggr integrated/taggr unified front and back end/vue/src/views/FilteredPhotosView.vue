@@ -2,7 +2,7 @@
   <div id="filtered-photo-view">
     <h1>Welcome to <span class="logo">taggr</span></h1>
     <br>
-    <router-link to="{name: 'home'}">Return To All Photos</router-link> <br>
+    <router-link v-bind:to="{name: 'home'}">Return To All Photos</router-link> <br>
     <br>
     <h1>Filtered Photos</h1><br>
     <filtered-photo-list />
