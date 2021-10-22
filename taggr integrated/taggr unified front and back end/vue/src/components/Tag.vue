@@ -1,6 +1,6 @@
 <template>
   <div class="tag-button">
-    <button v-bind:value="tagElement.tag_Id" v-on:click="tagFilterUserPhotos(this.tag.tag_Name)">{{ tagElement.tag_Name }}</button>
+    <button v-bind:value="tagElement.tag_Id" v-on:click="tagFilter(tagElement.tag_Name)">{{ tagElement.tag_Name }}</button>
   </div>
 </template>
  
