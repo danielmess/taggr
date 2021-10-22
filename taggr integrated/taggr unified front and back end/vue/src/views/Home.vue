@@ -7,7 +7,7 @@
     <form v-on:submit.prevent="descriptionFilter(searchKeyword)">
       <label for="keyword">Keyword To Search For In Descriptions:</label>
       <input id="keyword" name="keyword" type="text" v-model="searchKeyword">
-      <button type="submit" class="keywoard search" >Search</button>
+      <button type="submit" class="keyword search" >Search</button>
       </form>
     <br>
     <photo-list />

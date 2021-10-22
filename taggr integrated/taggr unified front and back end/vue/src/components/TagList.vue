@@ -5,6 +5,7 @@
         v-for="tag in tagArray"
         v-bind:key="tag.tag_Id"
         v-bind:tagElement="tag"
+        
       />
     </div>
 
@@ -12,12 +13,16 @@
  
 <script>
 import Tag from "./Tag.vue";
+
+
 export default {
   name: "tag-list",
   props: ["tagArray"],
   components: {
     Tag,
-  },
+  }
+
+  
 };
 </script>
  

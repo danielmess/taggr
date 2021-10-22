@@ -58,6 +58,16 @@ export default {
           }
 
         },
+        methods: {
+    tagFilter(tagName){
+      PhotoService.
+      tagFilterUserPhotos(tagName)
+      .then((response) => {
+        this.$store.commit("FILTER_PHOTOS", response.data);
+      });
+      this.$router.push({ name: "filtered-photos-view" });
+    }
+  },
         // editPhoto(id){},
         handleErrorResponse(error, verb) {
       if (error.response) {
