@@ -37,6 +37,7 @@ export default {
       .then((response) => {
         this.$store.commit("FILTER_PHOTOS", response.data);
       });
+      this.$store.commit("CHANGE_FILTER_TITLE", "Photos Filtered By Description Keyword '"+keyword+"'")
       this.$router.push({ name: "filtered-photos-view" });
     }
   }

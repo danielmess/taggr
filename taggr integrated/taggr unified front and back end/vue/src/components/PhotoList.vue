@@ -32,6 +32,7 @@ export default {
       created() {
     this.getCurrentUserPhotos();
     this.$store.commit("FILTER_PHOTOS", []);
+    this.$store.commit("CHANGE_FILTER_TITLE", "");
   }
 };
 </script>

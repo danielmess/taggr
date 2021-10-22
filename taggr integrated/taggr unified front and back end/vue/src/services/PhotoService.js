@@ -16,10 +16,13 @@ export default{
         return axios.delete(`/users/photos/${photoId}`);
     },
     keywordSearchUserPhotos(keyword){
-        return axios.get(`/users/photos/desc/${keyword}`)
+        return axios.get(`/users/photos/desc/${keyword}`);
     },
     tagFilterUserPhotos(tagName){
-        return axios.get(`users/photos/tags/${tagName}`)
+        return axios.get(`users/photos/tags/${tagName}`);
+    },
+    getUserTagIndex(){
+        return axios.get('/users/tagindex');
     }
 
 }

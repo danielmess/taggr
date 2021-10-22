@@ -4,7 +4,7 @@
     <br>
     <router-link v-bind:to="{name: 'home'}">Return To All Photos</router-link> <br>
     <br>
-    <h1>Filtered Photos</h1><br>
+    <h1>{{this.$store.state.filteredByText}}</h1><br>
     <filtered-photo-list />
   </div>
 </template>

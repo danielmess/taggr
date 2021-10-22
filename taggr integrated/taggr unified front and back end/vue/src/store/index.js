@@ -22,42 +22,8 @@ export default new Vuex.Store({
     user: currentUser || {},
     currentUserPhotos: [],
     currentUserPhotosFiltered: [],
-    currentUserTagIndex: [    {
-      "tagName": "chocolate",
-      "tag_Id": 2,
-      "user_Id": 3,
-      "count": 4
-  },
-  {
-      "tagName": "cookies",
-      "tag_Id": 3,
-      "user_Id": 3,
-      "count": 1
-  },
-  {
-      "tagName": "healthy-ish",
-      "tag_Id": 4,
-      "user_Id": 3,
-      "count": 1
-  },
-  {
-      "tagName": "egg",
-      "tag_Id": 5,
-      "user_Id": 3,
-      "count": 1
-  },
-  {
-      "tagName": "light",
-      "tag_Id": 6,
-      "user_Id": 3,
-      "count": 1
-  },
-  {
-      "tagName": "Easter",
-      "tag_Id": 7,
-      "user_Id": 3,
-      "count": 2
-  }]
+    filteredByText: "",
+    currentUserTagIndex: []
   },
   mutations: {
     SET_AUTH_TOKEN(state, token) {
@@ -87,6 +53,12 @@ export default new Vuex.Store({
         state.currentUserPhotos.findIndex(photo => photo.photo_Id ===id),
       )
 
+    },
+    CHANGE_FILTER_TITLE(state, data){
+      state.filteredByText = data;
+    },
+    SET_USER_TAGINDEX(state, data){
+      state.currentUserTagIndex = data;
     }
   }
 })
