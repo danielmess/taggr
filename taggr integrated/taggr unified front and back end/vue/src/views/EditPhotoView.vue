@@ -2,7 +2,7 @@
   <div id="edit photoview">
     <h1>Edit Photo Information</h1>
     <br>
-    <router-link to="{name: 'home'}">Return To Photo List</router-link> <br>
+    <router-link v-bind:to="{name: 'home'}">Return To Photo List</router-link> <br>
     <br>
     <edit-photo />
   </div>

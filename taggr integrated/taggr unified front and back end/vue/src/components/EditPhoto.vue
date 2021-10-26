@@ -29,7 +29,7 @@
 import TagList from './TagList.vue';
 
 export default {
-    name: 'photo-card',
+    name: 'edit-photo-card',
     data() {
         return{
             // newDescription = '',
@@ -39,7 +39,7 @@ export default {
     components: {
         TagList
     },
-    props: ["photo"],
+    // props: ["photo"],
     methods:{
         instagramEmbed(url){
             if(url.includes('instagram')){
