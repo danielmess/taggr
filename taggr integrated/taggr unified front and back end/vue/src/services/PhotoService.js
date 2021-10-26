@@ -23,6 +23,9 @@ export default{
     },
     getUserTagIndex(){
         return axios.get('/users/tagindex');
+    },
+    getPhotoToEditInfo(photo_Id){
+        return axios.get(`users/photos/${photo_Id}`);
     }
 
 }

@@ -22,6 +22,7 @@ export default new Vuex.Store({
     user: currentUser || {},
     currentUserPhotos: [],
     currentUserPhotosFiltered: [],
+    photoToEdit: {},
     filteredByText: "",
     currentUserTagIndex: []
   },
@@ -59,6 +60,9 @@ export default new Vuex.Store({
     },
     SET_USER_TAGINDEX(state, data){
       state.currentUserTagIndex = data;
+    },
+    SET_PHOTO_TO_EDIT(state, data){
+      state.photoToEdit = data;
     }
   }
 })

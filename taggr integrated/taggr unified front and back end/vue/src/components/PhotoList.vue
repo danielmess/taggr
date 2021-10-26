@@ -33,6 +33,7 @@ export default {
     this.getCurrentUserPhotos();
     this.$store.commit("FILTER_PHOTOS", []);
     this.$store.commit("CHANGE_FILTER_TITLE", "");
+    this.$store.commit("SET_PHOTO_TO_EDIT",{});
   }
 };
 </script>

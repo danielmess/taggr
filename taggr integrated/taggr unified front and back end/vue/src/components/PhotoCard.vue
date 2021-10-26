@@ -59,7 +59,15 @@ export default {
 
         },
         
-        // editPhoto(id){},
+         editPhoto(id){
+           PhotoService.
+           getPhotoToEditInfo(id)
+           .then((response) => {
+             this.$store.commit("SET_PHOTO_TO_EDIT", response.data);
+           });
+           this.$router.push({name: "edit-photo-view"});
+
+         },
         handleErrorResponse(error, verb) {
       if (error.response) {
         this.errorMsg =
