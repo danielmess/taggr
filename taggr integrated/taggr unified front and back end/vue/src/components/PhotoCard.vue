@@ -79,7 +79,7 @@ export default {
           "Error " + verb + " photo. Server could not be reached.";
       } else {
         this.errorMsg =
-          "Error " + verb + " phpto. Request could not be created.";
+          "Error " + verb + " photo. Request could not be created.";
       }
     }
     }

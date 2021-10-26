@@ -10,10 +10,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class JdbcTagDAO implements TagDAO {
@@ -76,6 +73,7 @@ public class JdbcTagDAO implements TagDAO {
             TagIndexDTO theTagIndexDTO = mapRowToTagIndexDTO(results);
             indexResults.add(theTagIndexDTO);
         }
+        Collections.sort(indexResults);
         return indexResults;
     }
 

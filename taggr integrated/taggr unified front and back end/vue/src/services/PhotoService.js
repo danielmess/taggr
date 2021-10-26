@@ -26,6 +26,9 @@ export default{
     },
     getPhotoToEditInfo(photo_Id){
         return axios.get(`users/photos/${photo_Id}`);
+    },
+    deleteTagFromPhoto(photo_Id, tag_Id){
+        return axios.delete(`users/photos/${photo_Id}/${tag_Id}`);
     }
 
 }

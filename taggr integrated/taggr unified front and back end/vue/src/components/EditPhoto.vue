@@ -4,11 +4,11 @@
     <br>
     <iframe
       class="photo-iframe"
-      :src="instagramEmbed(photo.url)"
+      :src="instagramEmbed(this.$store.photoToEdit.url)"
     />
-    <a :href="photo.url">Original</a>
+    <a :href="this.$store.photoToEdit.url">Original</a>
     <p class="photo-description">
-      {{ photo.description }}
+      {{ this.$store.photoToEdit.description }}
     </p>
     <form>
         <div>
@@ -18,8 +18,7 @@
             <button type="submit" class="editDescription" v-on:click.prevent="editDescription">Change Description</button>
         </form>
     <tag-list 
-    v-bind="photo.photoTagsSet in $store.state.currentUserPhotos" :key="photo.url" 
-    v-bind:tagArray="photo.tags"/>
+    v-bind:tagArray="this.$store.photoToEdit.tags"/>
         <br>
 
   </div>

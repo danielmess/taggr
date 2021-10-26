@@ -1,6 +1,6 @@
 package com.techelevator.model;
 
-public class TagIndexDTO {
+public class TagIndexDTO implements Comparable<TagIndexDTO>{
     private String tagName = "";
     private long tag_Id;
     private long user_Id;
@@ -36,5 +36,10 @@ public class TagIndexDTO {
 
     public int getCount() {
         return count;
+    }
+
+    @Override
+    public int compareTo(TagIndexDTO ti) {
+        return this.getTagName().compareTo(ti.getTagName());
     }
 }
