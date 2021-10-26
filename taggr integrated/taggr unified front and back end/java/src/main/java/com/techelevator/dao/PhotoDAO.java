@@ -19,6 +19,8 @@ public interface PhotoDAO {
 
     public Photo retrieveUserPhotoFromURLSQL (String url, User user);
 
+    public Photo retrieveUserPhotoFromPhotoID(long photoId, User user);
+
     public String retrieveUserPhotoURLFromPhotoId (long photoId, User user);
 
     public void addTagToPhotoSQL (String url, String tag, User user);

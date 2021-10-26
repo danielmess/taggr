@@ -42,6 +42,16 @@ public class AccountController {
         }
     }
 
+    @RequestMapping(path = "/users/photos/{photoId}", method = RequestMethod.GET)
+    public Photo findPhotoById(Principal principal, @PathVariable long photoId) throws UserPrincipalNotFoundException {
+        if (principal != null){
+            Long user_id = getCurrentUserID(principal);
+            return photoDAO.retrieveUserPhotoFromPhotoID(photoId, userDAO.getUserById(user_id));
+        } else {
+            return null;
+        }
+    }
+
     @RequestMapping(path = "/users/photos/tags/{keyword}", method = RequestMethod.GET)
     public List<Photo> findPhotosByTag(Principal principal, @PathVariable String keyword) throws UserPrincipalNotFoundException {
         if (principal != null){

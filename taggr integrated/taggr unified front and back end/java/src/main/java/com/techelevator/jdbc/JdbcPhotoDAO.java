@@ -172,6 +172,22 @@ public class JdbcPhotoDAO implements PhotoDAO {
     }
 
     @Override
+    public Photo retrieveUserPhotoFromPhotoID(long photoId, User user) {
+        List<Photo> photoList = new ArrayList<>();
+        long userID = user.getId();
+        String sqlPhotoQuery = "SELECT photo_id, user_id, url, description FROM photos" +
+            " WHERE user_id = ? AND photo_id = ?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sqlPhotoQuery, userID, photoId);
+        while(results.next()){
+            Photo thePhoto = mapRowtoPhoto(results);
+            photoList.add(thePhoto);
+        }
+        photoList = getTagsForPhotoList(photoList, user);
+        Photo thePhoto = photoList.get(0);
+        return thePhoto;
+    }
+
+    @Override
     public void addTagToPhotoSQL (String url, String tag, User user){
         Photo thePhoto = retrieveUserPhotoFromURLSQL(url, user);
         long photoID = thePhoto.getPhoto_Id();
