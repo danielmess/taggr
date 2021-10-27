@@ -12,20 +12,20 @@
     </p>
     <form>
         <div>
-            <label for="newDescription">Enter New Description:</label>
+            <label for="newDescription">Enter New Description: </label>
               <input type="text" name ="newDescription" v-model="newDescription">
             </div>
             <button type="submit" class="edit-description-button" 
             v-on:click.prevent="editDescription(newDescription, $store.state.photoToEdit.photo_Id)">Change Description</button>
         </form>
     <br>
-    <p>Click on a tag to delete it. </p>
+    <p>Click on a tag to delete it:</p>
     <edit-tag-list 
     v-bind:tagArray="$store.state.photoToEdit.tags"/>
     <br>    
     <form>
       <div>
-        <label for="newTag">Enter New Tag Name:</label>
+        <label for="newTag">Enter New Tag Name: </label>
               <input type="text" name ="newTag" v-model="newTag">
             </div>
             <button type="submit" class="new-tag-button" 
@@ -132,7 +132,6 @@ export default {
   height: 750px;
   margin: 20px;
   background-color: rgba(255, 255, 255, 0.692);
-
 
 }
 

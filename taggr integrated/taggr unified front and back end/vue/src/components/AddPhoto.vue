@@ -2,15 +2,15 @@
   <div>
       <form>
           <div class ="field">
-              <label for="photoURL">URL for new photo:</label>
+              <label for="photoURL">URL for new photo: </label>
               <input type="text" name ="photoURL" v-model="newPhotoJSON.url">
               </div>
               <div class ="field">
-              <label for="photoDescription">Description for new photo:</label>
+              <label for="photoDescription">Description for new photo: </label>
               <input type="text" name="photoDescription" v-model="newPhotoJSON.description">
               </div>
               <div class ="field">
-              <label for="tagsAsCSV" >Tags for new photo, separated by commas:</label>
+              <label for="tagsAsCSV" >Tags for new photo, separated by commas: </label>
               <input type="text" name="tagsAsCSV" v-model="newPhotoJSON.tagsAsCSV">
               </div>
               <button type="submit" class="btn add" v-on:click.prevent="savePhoto">Add Photo</button>
