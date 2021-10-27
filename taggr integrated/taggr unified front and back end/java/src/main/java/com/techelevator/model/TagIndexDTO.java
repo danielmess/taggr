@@ -40,6 +40,6 @@ public class TagIndexDTO implements Comparable<TagIndexDTO>{
 
     @Override
     public int compareTo(TagIndexDTO ti) {
-        return this.getTagName().compareTo(ti.getTagName().toLowerCase());
+        return this.getTagName().toLowerCase().compareTo(ti.getTagName().toLowerCase());
     }
 }
