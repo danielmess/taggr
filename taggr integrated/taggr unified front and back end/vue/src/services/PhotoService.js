@@ -32,6 +32,9 @@ export default{
     },
     updatePhotoDescription(photo_Id, newDescription){
         return axios.patch(`users/photos/${photo_Id}/${newDescription}`);
+    },
+    addNewTag(photo_Id, newTag){
+        return axios.patch(`users/photos/${photo_Id}/tags/${newTag}`)
     }
 
 }

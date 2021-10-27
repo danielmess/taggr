@@ -1,6 +1,9 @@
 <template>
-  <div class="tag-button">
-    <button v-bind:value="tagElement.tag_Id" v-on:click="deleteTag(this.$store.photoToEdit.photo_Id,tagElement.tag_Id)">{{ tagElement.tag_Name }}</button>
+  <div >
+    <button class="delete-tag-button" 
+        v-bind:value="tagElement.tag_Id" 
+        v-on:click="deleteTag($store.state.photoToEdit.photo_Id,tagElement.tag_Id)">{{ tagElement.tag_Name }}
+    </button>
   </div>
 </template>
  
@@ -58,7 +61,8 @@ export default {
 </script>
  
 <style>
-.tag-button {
-  font-family: "Courier New", Courier, monospace;
+.delete-tag-button{
+  background-color:  rgba(204, 180, 211, 0.794);
+  font-family: Avenir, Helvetica, Arial, sans-serif;
 }
 </style>

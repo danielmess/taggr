@@ -1,9 +1,9 @@
 <template>
 <div class="edit-photo-container">
-  <div class="card">
+  <div class="edit-card">
     <br>
     <iframe
-      class="photo-iframe"
+      class="edit-photo-iframe"
       :src="instagramEmbed($store.state.photoToEdit.url)"
     />
     <a :href="$store.state.photoToEdit.url">Original</a>
@@ -22,8 +22,15 @@
     <p>Click on a tag to delete it. </p>
     <edit-tag-list 
     v-bind:tagArray="$store.state.photoToEdit.tags"/>
-        <br>
-
+    <br>    
+    <form>
+      <div>
+        <label for="newTag">Enter New Tag Name:</label>
+              <input type="text" name ="newTag" v-model="newTag">
+            </div>
+            <button type="submit" class="new-tag-button" 
+            v-on:click.prevent="addTag(newTag, $store.state.photoToEdit.photo_Id)">Add Tag</button>
+    </form>
   </div>
   </div>
 </template>
@@ -37,7 +44,7 @@ export default {
     data() {
         return{
             newDescription:"",
-            // newTag = ''
+            newTag:""
         }
     },
     components: {
@@ -82,7 +89,23 @@ export default {
 
           }
         },
-
+        addTag(newTag, photo_Id){
+          if(confirm("Do you want to add '" + newTag + "' as a new tag?"
+          )
+          ){
+            PhotoService.addNewTag(photo_Id, newTag)
+            .then((response) =>{
+              if(response.status === 202){
+                alert("Tag successfully added.");
+                this.newTag = "";
+                this.editPhoto(this.$store.state.photoToEdit.photo_Id);
+              }
+            })
+            .catch((error =>{
+              this.handleErrorResponse(error, "updating");
+            }))
+          }
+        },
         handleErrorResponse(error, verb) {
       if (error.response) {
         this.errorMsg =
@@ -102,20 +125,20 @@ export default {
 </script>
 
 <style>
-.card {
+.edit-card {
   border: 2px solid black;
   border-radius: 10px;
   width: 350px;
-  height: 650px;
+  height: 750px;
   margin: 20px;
   background-color: rgba(255, 255, 255, 0.692);
 
 
 }
 
-.photo-iframe{
+.edit-photo-iframe{
     display: flex-column;
-    height: 60%;
+    height: 51%;
 }
 
 .edit-photo-container {
@@ -130,7 +153,11 @@ export default {
 
 .edit-description-button{
   background-color: rgba(209, 186, 159, 0.794);
+  font-family: Avenir, Helvetica, Arial, sans-serif;
 } 
-
+.new-tag-button{
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  background-color: rgba(209, 186, 159, 0.794);
+}
 
 </style>
