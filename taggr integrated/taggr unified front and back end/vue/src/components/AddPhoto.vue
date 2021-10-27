@@ -2,7 +2,7 @@
   <div>
       <form>
           <div class ="field">
-              <label for="photoURL">URL for new photo: </label>
+              <label for="photoURL">Instagram URL for new photo: </label>
               <input type="text" name ="photoURL" v-model="newPhotoJSON.url">
               </div>
               <div class ="field">

@@ -2,7 +2,7 @@
   <div id="home">
     <h1>Welcome to <span class="logo">taggr</span></h1>
     <br>
-    <router-link v-bind:to="{name: 'add-photo-view'}">Add A New Photo</router-link> &nbsp;|&nbsp;
+    <router-link v-bind:to="{name: 'add-photo-view'}">Add A New Instagram Photo</router-link> &nbsp;|&nbsp;
     <router-link v-bind:to="{name: 'tag-index-view'}">Your Tags</router-link> &nbsp;|&nbsp;
     <form v-on:submit.prevent="descriptionFilter(searchKeyword)">
       <label for="keyword">Keyword To Search For In Descriptions: </label>
