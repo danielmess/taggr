@@ -111,14 +111,13 @@ public class AccountController {
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @RequestMapping(path ="users/photos/{photoId}/desc", method = RequestMethod.PATCH)
+    @RequestMapping(path ="users/photos/{photoId}/{desc}", method = RequestMethod.PATCH)
     public void updateUserPhotoDesc(@PathVariable long photoId, Principal principal,
-                                    @RequestBody Photo thePhoto) {
+                                    @PathVariable String desc) {
         if (principal != null) {
             Long user_id = getCurrentUserID(principal);
             User user = userDAO.getUserById(user_id);
-            String photoURL = thePhoto.getUrl();
-            photoDAO.updatePhotoNewDescriptionSQL(photoURL, thePhoto.getDescription(), user);
+            photoDAO.updatePhotoNewDescriptionSQL(photoId, desc, user);
         }
     }
 

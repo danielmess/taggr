@@ -1,7 +1,7 @@
 <template>
   <div class="tag-container">
 
-      <tag
+      <edit-tag
         v-for="tag in tagArray"
         v-bind:key="tag.tag_Id"
         v-bind:tagElement="tag"

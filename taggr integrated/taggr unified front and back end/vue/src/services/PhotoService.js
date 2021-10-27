@@ -29,6 +29,9 @@ export default{
     },
     deleteTagFromPhoto(photo_Id, tag_Id){
         return axios.delete(`users/photos/${photo_Id}/${tag_Id}`);
+    },
+    updatePhotoDescription(photo_Id, newDescription){
+        return axios.patch(`users/photos/${photo_Id}/${newDescription}`);
     }
 
 }

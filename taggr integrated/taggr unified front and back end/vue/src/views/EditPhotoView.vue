@@ -4,20 +4,20 @@
     <br>
     <router-link v-bind:to="{name: 'home'}">Return To Photo List</router-link> <br>
     <br>
-    <edit-photo />
+    <edit-photo-card />
   </div>
 </template>
 
 <script>
 
 
-import EditPhoto from '../components/EditPhoto.vue'
+import EditPhotoCard from '../components/EditPhotoCard.vue'
 
 export default {
   
   name: "edit-photo-view",
   components: {
-    EditPhoto
+    EditPhotoCard
     
     
   }

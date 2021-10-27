@@ -144,9 +144,9 @@ public class JdbcPhotoDAO implements PhotoDAO {
     }
 
     @Override
-    public void updatePhotoNewDescriptionSQL(String photoURL, String newDescription, User user){
-        String sqlUpdatePhotoDesc = "UPDATE photos SET description = ? WHERE user_id = ? AND url = ? ;";
-        jdbcTemplate.update(sqlUpdatePhotoDesc, newDescription, user.getId(), photoURL);
+    public void updatePhotoNewDescriptionSQL(long photoID, String newDescription, User user){
+        String sqlUpdatePhotoDesc = "UPDATE photos SET description = ? WHERE user_id = ? AND photo_id = ? ;";
+        jdbcTemplate.update(sqlUpdatePhotoDesc, newDescription, user.getId(), photoID);
     }
 
     @Override
