@@ -11,6 +11,15 @@ public class AddPhotoJSON {
     @NotNull (message = "Photo url required!")
     private String url;
 
+    public AddPhotoJSON(){}
+
+    public AddPhotoJSON(String url, String description, String tagsAsCSV){
+        this.url = url;
+        this.description = description;
+        this.tagsAsCSV = tagsAsCSV;
+    }
+
+
     public String getUrl() {
         return url;
     }

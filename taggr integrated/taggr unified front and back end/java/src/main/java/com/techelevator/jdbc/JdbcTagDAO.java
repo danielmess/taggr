@@ -48,11 +48,20 @@ public class JdbcTagDAO implements TagDAO {
 
     @Override
     public Set<Tag> createTagsSetFromCSV(String tagsCsv, User user){
-        String[] tagnames = tagsCsv.split(",");
         Set<Tag> photoTags = new HashSet<>();
-        for(String tagname: tagnames){
+        if (tagsCsv.length() > 0 && tagsCsv.contains(",")){
+            String[] tagnames = tagsCsv.split(",");
+
+            for (String tagname : tagnames) {
+                Tag theTag = new Tag();
+                String trimmedTagName = tagname.trim();
+                theTag.setTag_Name(trimmedTagName);
+                theTag.setUser_Id(user.getId());
+                photoTags.add(theTag);
+            }
+        } else if (tagsCsv.length()> 0){
             Tag theTag = new Tag();
-            String trimmedTagName = tagname.trim();
+            String trimmedTagName = tagsCsv.trim();
             theTag.setTag_Name(trimmedTagName);
             theTag.setUser_Id(user.getId());
             photoTags.add(theTag);

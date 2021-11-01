@@ -218,7 +218,7 @@ public class JdbcPhotoDAO implements PhotoDAO {
         List<TagDTO> userTagDTOs = new ArrayList<>();
         String sqlQueryTags ="Select photo_and_tag_relation.photo_id, photo_and_tag_relation.tag_id, tags.tag_name, tags.user_id"+
                 " FROM photo_and_tag_relation INNER JOIN tags ON tags.tag_id = photo_and_tag_relation.tag_id"+
-                " WHERE tags.user_id = ? ;";
+                " WHERE tags.user_id = ? ORDER BY tags.tag_name;";
         SqlRowSet tagDAOresults = jdbcTemplate.queryForRowSet(sqlQueryTags, userID);
         while(tagDAOresults.next()){
             TagDTO theTagDTO = tagDAO.mapRowToTagDTO(tagDAOresults);
