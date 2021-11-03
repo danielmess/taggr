@@ -77,9 +77,9 @@ public class JdbcPhotoDAO implements PhotoDAO {
     }
 
     @Override
-    public void createNewPhotoAndAddToUserSQL(String photoURL, String photoDescription, Set<Tag> tagsSet, User user) {
+    public void createNewPhotoAndAddToUserSQL(String photoURL, String photoDescription, List<Tag> tagsList, User user) {
 
-        Photo photoToAdd = new Photo(photoURL, photoDescription, tagsSet);
+        Photo photoToAdd = new Photo(photoURL, photoDescription, tagsList);
         String photoToAddSQL = "INSERT INTO photos (user_id, url, description) VALUES (?, ?, ?) ON CONFLICT DO NOTHING;";
 
         //inserts new Photo into SQL
@@ -97,14 +97,14 @@ public class JdbcPhotoDAO implements PhotoDAO {
         photoToAdd.setPhoto_Id(sqlPhoto.getPhoto_Id());
 
         //upsert photo's tags into tags table.
-        for (Tag tag : tagsSet) {
+        for (Tag tag : tagsList) {
             String sqlTagUpsert = "INSERT INTO tags (tag_name, user_id) VALUES (?, ?) ON CONFLICT DO NOTHING;";
             jdbcTemplate.update(sqlTagUpsert, tag.getTag_Name(), user.getId());
         }
         //get updated Set of UserTags from database tags table.
-        Set<Tag> userTags = tagDAO.findUserTags(user.getId());
+        List<Tag> userTags = tagDAO.findUserTags(user.getId());
         //cycle through photo's tags
-        for(Tag photoTag: tagsSet){
+        for(Tag photoTag: tagsList){
             //cycle through userTags
             for(Tag userTag: userTags){
                 if (photoTag.getTag_Name().equalsIgnoreCase(userTag.getTag_Name())){
@@ -227,13 +227,14 @@ public class JdbcPhotoDAO implements PhotoDAO {
         //cycle through each photo
         for (Photo thePhoto: photoList){
             //cycle through each TagDTO - if it matches the PhotoID of thePhoto, converts theTagDTO into newTag,
-            //then adds to Photo's TagSet
+            //then adds to Photo's TagList
             for(TagDTO theTagDTO: userTagDTOs){
                 if(theTagDTO.getPhotoID() == thePhoto.getPhoto_Id()){
                     Tag newTag = tagDAO.convertTagDTOtoTag(theTagDTO);
-                    Set<Tag> photoTags = thePhoto.getTags();
+                    List<Tag> photoTags = new ArrayList<>();
+                    photoTags = thePhoto.getTags();
                     photoTags.add(newTag);
-                    thePhoto.setPhotoTagsSet(photoTags);
+                    thePhoto.setPhotoTagsList(photoTags);
                 }
             }
         }

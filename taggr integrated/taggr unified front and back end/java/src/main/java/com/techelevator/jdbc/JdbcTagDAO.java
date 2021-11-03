@@ -23,8 +23,8 @@ public class JdbcTagDAO implements TagDAO {
     }
 
     @Override
-    public Set<Tag> findUserTags(long userID){
-        Set<Tag> userTags = new HashSet<>();
+    public List<Tag> findUserTags(long userID){
+        List<Tag> userTags = new ArrayList<>();
         String sqlUserTagQuery = "SELECT * FROM tags WHERE user_id = ? ;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sqlUserTagQuery, userID);
         while(results.next()){
@@ -35,8 +35,8 @@ public class JdbcTagDAO implements TagDAO {
     }
 
     @Override
-    public Set<TagDTO> findUserTagDTOs(long userID){
-        Set<TagDTO> userTagDTOs = new HashSet<>();
+    public List<TagDTO> findUserTagDTOs(long userID){
+        List<TagDTO> userTagDTOs = new ArrayList<>();
         String sqlUserTagDTOquery = "SELECT tag_id, tag_name, user_id, photo_and_tag_relation.photo_id FROM tags INNER JOIN photo_and_tag_relation ON tags.tag_id = photo_and_tag_relation.photo_id WHERE user_id = ? ;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sqlUserTagDTOquery, userID);
         while(results.next()){
@@ -47,8 +47,8 @@ public class JdbcTagDAO implements TagDAO {
     }
 
     @Override
-    public Set<Tag> createTagsSetFromCSV(String tagsCsv, User user){
-        Set<Tag> photoTags = new HashSet<>();
+    public List<Tag> createTagsSetFromCSV(String tagsCsv, User user){
+        List<Tag> photoTags = new ArrayList<>();
         if (tagsCsv.length() > 0 && tagsCsv.contains(",")){
             String[] tagnames = tagsCsv.split(",");
 

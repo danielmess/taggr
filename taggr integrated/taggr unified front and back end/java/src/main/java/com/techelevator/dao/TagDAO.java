@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Set;
 
 public interface TagDAO {
-    public Set<Tag> findUserTags(long userID);
+    public List<Tag> findUserTags(long userID);
 
-    public Set<Tag> createTagsSetFromCSV(String tagsCsv, User user);
+    public List<Tag> createTagsSetFromCSV(String tagsCsv, User user);
 
     public TagDTO mapRowToTagDTO(SqlRowSet rowSet);
 
@@ -20,7 +20,7 @@ public interface TagDAO {
 
     public Tag convertTagDTOtoTag(TagDTO tagDTO);
 
-    public Set<TagDTO> findUserTagDTOs(long userID);
+    public List<TagDTO> findUserTagDTOs(long userID);
 
     public Tag findTagByName(String tag, User user);
 

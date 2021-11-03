@@ -1,6 +1,7 @@
 package com.techelevator.model;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class Photo {
@@ -8,20 +9,20 @@ public class Photo {
     private String url;
     private String description;
     private long user_id;
-    private Set<Tag> photoTagsSet = new HashSet();
+    private List<Tag> photoTagsList = new ArrayList<>();
     private long photo_id;
 
     //set blank constructor
     public Photo(){}
 
-    //set parametized constructor
-    public Photo(String url, String description, Set tagsSet) {
+    //set parameterized constructor
+    public Photo(String url, String description, List<Tag> tagList) {
         this.url = url;
         this.description = description;
-        this.photoTagsSet = tagsSet;
+        this.photoTagsList = tagList;
     }
 
-// setters
+    // setters
 
     public void setUrl(String url) { // this is only used in testing suite
         this.url = url;
@@ -31,15 +32,15 @@ public class Photo {
         this.description = description;
     }
 
-    public void setPhotoTagsSet(Set<Tag> photoTagsSet) {
-        this.photoTagsSet = photoTagsSet;
+    public void setPhotoTagsList(List<Tag> photoTagsList) {
+        this.photoTagsList = photoTagsList;
     }
 
     public void setPhoto_Id(long photo_Id) { this.photo_id = photo_Id; }
 
     public void setUser_id(long user_id) { this.user_id = user_id; }
 
-    // set getters
+    // getters
     public String getUrl() {
         return this.url;
     }
@@ -52,7 +53,5 @@ public class Photo {
 
     public long getUser_id() { return user_id; }
 
-    public Set getTags(){
-        return photoTagsSet;
-    }
+    public List<Tag> getTags(){ return photoTagsList; }
 }

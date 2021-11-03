@@ -36,8 +36,13 @@ export default {
       keywordSearchUserPhotos(keyword)
       .then((response) => {
         this.$store.commit("FILTER_PHOTOS", response.data);
+           if (response.data.length > 0) {
+      this.$store.commit("CHANGE_FILTER_TITLE", "Photos Filtered By Description Keyword '"+keyword+"'");
+      } else {
+        this.$store.commit("CHANGE_FILTER_TITLE", "No results found for Description Keyword '" + keyword + "'");
+      }
       });
-      this.$store.commit("CHANGE_FILTER_TITLE", "Photos Filtered By Description Keyword '"+keyword+"'")
+
       this.$router.push({ name: "filtered-photos-view" });
     }
   }

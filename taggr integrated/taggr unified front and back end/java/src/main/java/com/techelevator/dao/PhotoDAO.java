@@ -11,7 +11,7 @@ import java.util.Set;
 
 @Component
 public interface PhotoDAO {
-    public void createNewPhotoAndAddToUserSQL(String photoURL, String photoDescription, Set<Tag> tagsSet, User user);
+    public void createNewPhotoAndAddToUserSQL(String photoURL, String photoDescription, List<Tag> tagsList, User user);
 
     public void deletePhotoFromUserSQL (long photoID, User user);
 

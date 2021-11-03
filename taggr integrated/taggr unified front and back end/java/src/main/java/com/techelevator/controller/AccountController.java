@@ -80,7 +80,7 @@ public class AccountController {
         if (principal != null){
             Long user_id = getCurrentUserID(principal);
             User user = userDAO.getUserById(user_id);
-            Set<Tag> tagsSet = tagDAO.createTagsSetFromCSV(addPhotoJSON.getTagsAsCSV(), user);
+            List<Tag> tagsSet = tagDAO.createTagsSetFromCSV(addPhotoJSON.getTagsAsCSV(), user);
           photoDAO.createNewPhotoAndAddToUserSQL(addPhotoJSON.getUrl(), addPhotoJSON.getDescription(), tagsSet, user );
         return addPhotoJSON;
         } else {
@@ -89,7 +89,7 @@ public class AccountController {
     }
 
     @RequestMapping(path = "/users/tags", method = RequestMethod.GET)
-    public Set<Tag> getTagsForLoggedInUser(Principal principal){
+    public List<Tag> getTagsForLoggedInUser(Principal principal){
         if (principal != null){
             Long user_id = getCurrentUserID(principal);
             User user = userDAO.getUserById(user_id);
