@@ -39,12 +39,15 @@ export default {
     methods: {
         savePhoto(){
             if (this.newPhotoJSON.url !== ""){
+            let urlOk = true;
+            let descOk = true;
             if (!this.newPhotoJSON.url.includes("instagram")){
-                confirm("taggr is currently optimized to work with Instagram-hosted photos. Other photo URLs may not display properly. Continue anyway?")
+                urlOk = confirm("taggr is currently optimized to work with Instagram-hosted photos. Other photo URLs may not display properly. Continue anyway?")
             }
-            if (this.newPhotoJSON.description.length === ""){
-                confirm("are you sure you want to proceed with an empty description for your photo? You do have the option to update the description later.")
+            if (this.newPhotoJSON.description === ""){
+                descOk = confirm("are you sure you want to proceed with an empty description for your photo? You do have the option to update the description later.")
             }
+            if (urlOk && descOk){
             photoService.addCurrentUserPhoto(this.newPhotoJSON)
             .then(response => {
                 if(response.status === 201) {
@@ -56,10 +59,11 @@ export default {
                 this.handleErrorResponse(error, "creating");
                 alert("Please check to make sure you entered things correctly!");
                 this.resetForm();
-            })
+            })}
             } else {
                 alert("A photo URL is required! Remember, taggr is currently optimized to work with Instagram URLs. :)")
             }
+        
         },
         resetForm(){
             this.newPhotoJSON = {};
