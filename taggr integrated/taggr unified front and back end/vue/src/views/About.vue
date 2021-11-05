@@ -15,6 +15,7 @@
     <br>
     <p> Future directions for <span class="logo">taggr</span> could include:</p>
      <ul>
+         <li>better Jdoc documentation on methods</li>
          <li>integration testing on the backend to make sure that APIs' CRUD operations work correctly against the database</li>
          <li>integration testing on the frontend using Cypress</li>
          <li>further styling refinements</li>
