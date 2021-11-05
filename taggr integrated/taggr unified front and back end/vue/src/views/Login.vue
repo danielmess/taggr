@@ -2,6 +2,9 @@
   <div id="login" class="text-center">
     <form class="form-signin" @submit.prevent="login">
       <h1 class="h3 mb-3 font-weight-normal">Please Sign In</h1>
+      <br>
+      <p>You can see an example account with populated photos and tags by logging in with username "danmess" and password "password". Or create your own account by clicking on "Need an account?"!</p>
+      <br>
       <div
         class="alert alert-danger"
         role="alert"

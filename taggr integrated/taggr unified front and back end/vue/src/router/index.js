@@ -9,6 +9,7 @@ import AddPhotoView from '../views/AddPhotoView'
 import EditPhotoView from '../views/EditPhotoView'
 import TagIndexView from '../views/TagIndexView'
 import FilteredPhotosView from '../views/FilteredPhotosView'
+import About from '../views/About.vue'
 
 Vue.use(Router)
 
@@ -87,6 +88,14 @@ const router = new Router({
       component: FilteredPhotosView,
       meta: {
         requiresAuth: true
+      }
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: About,
+      meta: {
+        requiresAuth: false
       }
     }
   ]
