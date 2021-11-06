@@ -69,12 +69,12 @@ public class ApplicationTests {
 //    void contextLoads() {
 //    }
 
-    @Test
-    @WithMockUser(username = "user", password = "password")
-    public void save_new_photo_and_confirm(){
-        AddPhotoJSON newPhotoJSON = new AddPhotoJSON("https://www.instagram.com/p/CVqNH9DpOj4/", "winter squash apple cider toasts", "testing 123456, supercalifraglisticexpiallidocious, fall, squash");
-        List<Tag> tagsList = daoTag.createTagsSetFromCSV(newPhotoJSON.getTagsAsCSV(), @WithMockUser);
-        daoPhoto.createNewPhotoAndAddToUserSQL(
-    }
+//    @Test
+//    @WithMockUser(username = "user", password = "password")
+//    public void save_new_photo_and_confirm(){
+//        AddPhotoJSON newPhotoJSON = new AddPhotoJSON("https://www.instagram.com/p/CVqNH9DpOj4/", "winter squash apple cider toasts", "testing 123456, supercalifraglisticexpiallidocious, fall, squash");
+//        List<Tag> tagsList = daoTag.createTagsSetFromCSV(newPhotoJSON.getTagsAsCSV(), @WithMockUser);
+//        daoPhoto.createNewPhotoAndAddToUserSQL(
+//    }
 
 }
