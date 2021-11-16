@@ -19,7 +19,7 @@ import java.util.Set;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "http://tagger-drm.netlify.app", maxAge = 3600)
 @PreAuthorize("isAuthenticated()")
 public class AccountController {
     private UserDAO userDAO;
