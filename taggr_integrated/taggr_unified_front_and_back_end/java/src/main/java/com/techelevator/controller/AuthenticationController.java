@@ -22,7 +22,7 @@ import com.techelevator.security.jwt.JWTFilter;
 import com.techelevator.security.jwt.TokenProvider;
 
 @RestController
-@CrossOrigin(origins = "https://tagger-drm.netlify.app", maxAge = 3600)
+@CrossOrigin(origins = "https://tagger-drm.netlify.app")
 public class AuthenticationController {
 
     private final TokenProvider tokenProvider;
